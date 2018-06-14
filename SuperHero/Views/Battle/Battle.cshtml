@@ -1,0 +1,143 @@
+﻿@model SuperHero.Models.BattleViewModel
+
+@{
+    ViewBag.Title = "Battle";
+    Session["battleModel"] = Model;
+}
+
+<div id="battleArena">
+    <audio id="battleSound" style="visibility:hidden" controls>       
+        <source src="~/Sound/filmfight.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <div class="form-horizontal pt-5">
+        <div class="row justify-content-around">
+
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-10 col-10">
+                <div class="card">
+                    @Html.HiddenFor(modelItem => Model.UserHero.ApiId)
+                    <h4 id="userHeroCardTitle" class="card-title text-center bg-dark mb-0" data-toggle="tooltip" data-placement="top" title="Click here!!!">
+                        <i class="material-icons">
+                            arrow_drop_down
+                        </i>
+                        <span>@Model.UserHero.Name</span>
+                    </h4>
+                    <img id="userHeroCardImg" class="card-img" alt="card image" height="350" src="@Model.UserHero.ImgUrl">
+                    <div id="userHeroCardBody" class="card-body">
+                        <p class="card-text mb-0">@Html.DisplayNameFor(modelItem => Model.UserHero.RealName) : @Model.UserHero.RealName</p>
+                        <hr>
+                        <div class="text-center" data-toggle="tooltip" data-placement="top" title="CLICK ON AN ATTRIBUTE BELOW!!!">Attributes</div>
+                        <hr>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="int" type="radio" class="form-check-input" value="@Model.UserHero.Intelligence" name="battle"><span class="userHeroSkill">@Html.DisplayNameFor(modelItem => Model.UserHero.Intelligence)</span> : @Model.UserHero.Intelligence
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="str" type="radio" class="form-check-input " value="@Model.UserHero.Strength" name="battle"><span class="userHeroSkill">@Html.DisplayNameFor(modelItem => Model.UserHero.Strength)</span> : @Model.UserHero.Strength
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="spd" type="radio" class="form-check-input " value="@Model.UserHero.Speed" name="battle"><span class="userHeroSkill">@Html.DisplayNameFor(modelItem => Model.UserHero.Speed)</span> : @Model.UserHero.Speed
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="dur" type="radio" class="form-check-input " value="@Model.UserHero.Durability" name="battle"><span class="userHeroSkill">@Html.DisplayNameFor(modelItem => Model.UserHero.Durability)</span> : @Model.UserHero.Durability
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="pow" type="radio" class="form-check-input " value="@Model.UserHero.Power" name="battle"><span class="userHeroSkill">@Html.DisplayNameFor(modelItem => Model.UserHero.Power)</span> : @Model.UserHero.Power
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input id="com" type="radio" class="form-check-input " value="@Model.UserHero.Combat" name="battle"><span class="userHeroSkill">@Html.DisplayNameFor(modelItem => Model.UserHero.Combat)</span> : @Model.UserHero.Combat
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.OpponentHero.Name == "Temporarily Unavailable!")
+            {
+                <div class="justify-content-center text-center pb-2">
+                    <button type="button" class="btn apiNotWorking">@Html.ActionLink("BACK TO HOME", "Index", "Home", null, null)</button>
+                </div>
+            }
+            else
+            {
+                <div id="fightButton" class="col-xl-3 col-lg-3 col-md-4 col-sm-10 col-10 justify-content-center text-center"
+                     data-toggle="tooltip" data-placement="top" title="CLICK ON THE NAME OF THE HERO!!!">
+                    <div class="form-group">
+                        <div class="ml-auto mr-auto  col-md-10">
+                            <input id="fight" type="button" value="Fight!!!" class="btn btn-primary fightButton" disabled />
+                        </div>
+                    </div>
+                    <div class="noSkillChoosed ml-auto mr-auto">
+                        <h4 style="color:white;" data-toggle="tooltip" data-placement="top" title="CLICK ON THE NAME OF THE HERO!!!">First choose an attribute, that your hero will use in the fight!!!</h4>
+                    </div>
+                </div>
+            }
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModal" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div id="resultModalBody" class="modal-content">
+                        <div class="modal-header text-center row" style="color:red;border:none;">
+                            <div class="col">
+                                <h2 class="modal-title" id="exampleModalLongTitle">THE FIGHT</h2>
+                            </div>
+                            <div class="col">
+                                <h2 class="modal-title" id="exampleModalLongTitle">IS OVER!!</h2>
+                            </div>
+                        </div>
+                        <div class="modal-body text-center" style="color:white;border:none;">
+                            <p id="result"></p>
+                        </div>
+                        <div class="modal-footer row justify-content-center" style="color:red;border:none;">
+
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary fightEnd">@Html.ActionLink("Fight Again!!", "ChooseHero", "ChooseHeroView")</button>
+                            </div>
+                            <div class="col-3"></div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary fightEnd">@Html.ActionLink("Back to Home!", "Index", "Home")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-10 col-10">
+                <div class="card">
+                    @Html.HiddenFor(modelItem => Model.OpponentHero.ApiId)
+                    <h4 id="opponentHeroCardTitle" class="card-title text-center bg-dark mb-0">
+                        <i class="material-icons">
+                            arrow_drop_down
+                        </i><span>@Model.OpponentHero.Name</span>
+                    </h4>
+                    <img id="opponentHeroCardImg" class="card-img" alt="card image" height="350" src="@Model.OpponentHero.ImgUrl">
+                    <div id="opponentHeroCardBody" class="card-body">
+                        <p class="card-text mb-0">@Html.DisplayNameFor(modelItem => Model.OpponentHero.RealName) : @Model.OpponentHero.RealName</p>
+                        <hr>
+                        <div class="opponentHeroCardText text-center" hidden>Attributes</div>
+                        <hr>
+                        <div class="opponentHeroCardText" hidden>@Html.DisplayNameFor(modelItem => Model.OpponentHero.Intelligence) : <span id="@Html.DisplayNameFor(modelItem=>Model.OpponentHero.Intelligence)">@Model.OpponentHero.Intelligence</span></div>
+                        <div class="opponentHeroCardText" hidden>@Html.DisplayNameFor(modelItem => Model.OpponentHero.Strength) : <span id="@Html.DisplayNameFor(modelItem=>Model.OpponentHero.Strength)">@Model.OpponentHero.Strength</span></div>
+                        <div class="opponentHeroCardText" hidden>@Html.DisplayNameFor(modelItem => Model.OpponentHero.Speed) : <span id="@Html.DisplayNameFor(modelItem=>Model.OpponentHero.Speed)">@Model.OpponentHero.Speed</span></div>
+                        <div class="opponentHeroCardText" hidden>@Html.DisplayNameFor(modelItem => Model.OpponentHero.Durability) : <span id="@Html.DisplayNameFor(modelItem=>Model.OpponentHero.Durability)">@Model.OpponentHero.Durability</span></div>
+                        <div class="opponentHeroCardText" hidden>@Html.DisplayNameFor(modelItem => Model.OpponentHero.Power) : <span id="@Html.DisplayNameFor(modelItem=>Model.OpponentHero.Power)">@Model.OpponentHero.Power</span></div>
+                        <div class="opponentHeroCardText" hidden>@Html.DisplayNameFor(modelItem => Model.OpponentHero.Combat) : <span id="@Html.DisplayNameFor(modelItem=>Model.OpponentHero.Combat)">@Model.OpponentHero.Combat</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

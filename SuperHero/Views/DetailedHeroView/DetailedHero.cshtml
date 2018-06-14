@@ -1,0 +1,84 @@
+﻿@model SuperHero.Models.DetailedHeroViewModel
+
+@{
+    ViewBag.Title = "DetailedHero";
+    Random rnd = new Random();
+}
+
+<div id="detailedHeroView">
+
+    @if (Model.Name == "Temporarily Unavailable!")
+    {
+        <div class="justify-content-center text-center pb-2">
+            <button type="button" class="btn apiNotWorking">@Html.ActionLink("BACK TO HOME", "Index", "Home", null, null)</button>
+        </div>
+    }
+    else
+    {
+        if (Model.IsFavourite == false)
+        {
+            <div class="justify-content-center text-center pb-2">
+                <button id="addToFavourite" type="button" class="btn">
+                    <span style="color:yellow; font-size:24px;">&#9733</span>
+                    @Html.ActionLink("ADD TO FAVOURITE", "AddToFavourite", "DetailedHeroView", new { id = Model.ApiId }, new { @class = "add" })
+                    <span style="color:yellow; font-size:24px;">&#9733</span>
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="justify-content-center text-center pb-2">
+                <button id="removeFromFavourite" type="button" class="btn">@Html.ActionLink("REMOVE FROM FAVOURITES", "RemoveFromFavourite", "DetailedHeroView", new { id = Model.ApiId }, new { @class = "remove" })</button>
+            </div>
+        }
+    }
+
+    <div class="row justify-content-center">
+
+        <div id="heroStatCard" class="col-xl-3 col-lg-4 col-md-4 col-sm-10 col-10">
+            <div class="card" style="height:378px;">
+                <h4 class="card-title bg-dark mb-0 text-center">@Html.DisplayNameFor(model => model.Powerstat)</h4>
+                <div class="card-body">
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Powerstat.Intelligence) : @Model.Powerstat.Intelligence</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Powerstat.Strength) : @Model.Powerstat.Strength</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Powerstat.Speed) : @Model.Powerstat.Speed</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Powerstat.Durability) : @Model.Powerstat.Durability</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Powerstat.Power) : @Model.Powerstat.Power</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Powerstat.Combat) : @Model.Powerstat.Combat</p>
+                    @if (Model.IsFavourite == true)
+                    {
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" style="font-size:20px;">@Html.ActionLink("QUICK FIGHT", "BattleRandom", "Battle", new { leftHeroApiId = Model.ApiId, rightHeroApiId = rnd.Next(1, 733) }, htmlAttributes: new { })</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-10 col-10">
+            <div class="card ">
+                @Html.HiddenFor(modelItem => Model.ApiId)
+                <img class="card-img" alt="card image" height="350" src="@Model.ImageUrl">
+                <h4 class="card-title text-center bg-dark mb-0">
+                    @Model.Name
+                </h4>
+            </div>
+        </div>
+
+        <div id="heroBioCard" class="col-xl-3 col-lg-4 col-md-4 col-sm-10 col-10">
+            <div class="card" style="height:378px;">
+                <h4 class="card-title bg-dark mb-0 text-center">@Html.DisplayNameFor(model => model.BiographyData)</h4>
+                <div class="card-body">
+                    <p class="card-text">@Html.DisplayNameFor(model => model.BiographyData.Full_Name) : @Model.BiographyData.Full_Name</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.BiographyData.Alignment) : @Model.BiographyData.Alignment</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.BiographyData.Place_Of_Birth) : @Model.BiographyData.Place_Of_Birth</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.AppearanceValues.Gender) : @Model.AppearanceValues.Gender</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.AppearanceValues.Race) : @Model.AppearanceValues.Race</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.BiographyData.Publisher) : @Model.BiographyData.Publisher</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

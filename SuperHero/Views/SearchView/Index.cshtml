@@ -1,0 +1,111 @@
+﻿@model SuperHero.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Model.SearchResult.Count == 0)
+{
+    <div id="searchView" style="height:100%;background-size:cover;">
+        <div class="container">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+               
+                <div class="form-group">
+                    <div class="row justify-content-center">
+                        @Html.EditorFor(model => model.Filter.Name, new { htmlAttributes = new { @class = "form-control col-xl-4", @Placeholder = "search superheroes by name" } })
+                        <button type="submit" class="btn btn-primary">
+                            <i class="material-icons">
+                                search
+                            </i>
+                        </button>
+                    </div>
+                    <div class="justify-content-center text-center">
+                        @Html.ValidationMessageFor(model => model.Filter.Name, "", new { @class = "text-light" })
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div id="searchView">
+
+        <div class="container">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <div class="row justify-content-center">
+                        @Html.EditorFor(model => model.Filter.Name, new { htmlAttributes = new { @class = "form-control col-xl-4", @Placeholder = "search superheroes by name" } })
+                        <button type="submit" class="btn btn-primary">
+                            <i class="material-icons">
+                                search
+                            </i>
+                        </button>
+                    </div>
+                    <div class="justify-content-center text-center">
+                        @Html.ValidationMessageFor(model => model.Filter.Name, "", new { @class = "text-light" })
+                    </div>
+                </div>
+
+            }
+
+            @* hidden modal *@
+            <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-center row" style="color:red;border:none;">
+                            <div class="col">
+                                <h2 class="modal-title" id="exampleModalLongTitle">YOU HAVE TO LOGGED IN!!!</h2>
+                            </div>
+                        </div>
+                        <div class="modal-body text-center" style="color:white;border:none;">
+                            <p>
+                                IF YOU WANT MORE INFO, YOU SHOULD LOG IN, OR REGISTER IF YOU DIDN'T DO YET!
+                            </p>
+                        </div>
+                        <div class="modal-footer row justify-content-center" style="border:none;">
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary">@Html.ActionLink("Register", "Register", "RegisterUserView")</button>
+                            </div>
+                            <div class="col-3"></div>
+                            <div class="col-4 justify-content-end align-content-end text-right">
+                                <button type="button" class="btn btn-primary">@Html.ActionLink("Login Now", "Login", "LoginView")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-around">
+                @foreach (var item in Model.SearchResult)
+                {
+
+                    <div class="col-lg-4 col-xl-4 col-md-6 col-sm-10 col-10 pb-3">
+                        <div class="card">
+                            <img class="card-img" alt="something wrong in the api db" height="350" src="@item.Image.url">
+                            <h4 class="card-title text-center bg-dark mb-0">@item.Name</h4>
+                            @if (Session["role"]?.ToString() == "member")
+                            {
+                                <button type="button" class="btn btn-primary">@Html.ActionLink("MORE DETAILS", "DetailedHero", "DetailedHeroView", new { id = item.ApiId }, htmlAttributes: new { id = item.ApiId })</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary detailsButton">MORE DETAILS</button>
+                            }
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+
+    </div>
+}
+

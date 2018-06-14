@@ -1,0 +1,120 @@
+﻿@model List<SuperHero.Models.FavouriteSuperHeroViewModel>
+@{
+    ViewBag.Title = "Home Page";
+    Random rnd = new Random();
+}
+<div id="indexHome" class="container-fluid ">
+
+    @if (Session["role"]?.ToString() == "member")
+    {
+        <div class="text-center">
+            <h4 class="" style="font-size:28px;color:white;">YOUR FAVOURITE HEROES</h4>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h4 class="" style="font-size:36px;color:red;">WELCOME TO OUR SITE</h4>
+        </div>
+    }
+
+
+    @if (Session["role"]?.ToString() != "member")
+    {
+        <div class="row justify-content-around">
+
+            <div class="col-lg-3 col-xl-3 col-md-6 col-sm-10 col-10 pt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title" style="color:red">SEARCH AND BATTLE</h4>
+                        <p class="card-text" style="font-size:14px;">
+                            YOU COULD SEARCH HEROES FROM MARVEL AND DC UNIVERSE! SAVE YOUR FAVOURITE ONES!
+                            GET MORE INFOS FROM THEM! TEST THEM IN BATTLES! YOU FIND THIS IN OUR SITE!
+                            JUST REGISTER!
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="button" class="btn btn-primary">@Html.ActionLink("REGISTER", "Register", "RegisterUserView")</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xl-3 col-md-6 col-sm-10 col-10 pt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title" style="color:red">ABOUT AND SPONSORS</h4>
+                        <p class="card-text" style="font-size:14px;">
+                            WE ARE A BUNCH OF GEEKS AND NERDS FROM ALL OVER THE WORLD!
+                            WANT TO DEVELOP FURTHER OUR SITE! FOR THE DATABASE WE HAVE A PARTNERSHIP!
+                            CHECK THEIR SITE!
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="btn btn-primary">
+                            <a href="http://superheroapi.com/" class="card-link">SUPERHEROAPI</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+
+
+    @if (Session["role"]?.ToString() == "member")
+    {
+        <div class="row justify-content-around">
+            @if (Model.Count <= 0)
+            {
+
+
+                <div id="indexHomeNoFav" class="col-lg-3 col-xl-3 col-md-6 col-sm-10 col-10">
+                    <div class="card" id="indexHomeCardNoFavHeroes">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color:red">SEARCH AND BATTLE</h4>
+                            <p class="card-text" style="font-size:20px;">
+                                FIRST SEARCH FOR A HERO, THEN ADD TO FAVOURITE
+                                AND YOU ARE READY TO BATTLE!!!!
+                            </p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="button" class="btn btn-primary" style="font-size:25px;">@Html.ActionLink("SEARCH", "Index", "SearchView")</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+
+                    <div class="col-lg-3 col-xl-3 col-md-6 col-sm-10 col-10">
+                        <div class="card">
+                            <img class="card-img" alt="card image" height="300" src="@item.ImgUrl">
+                            <h4 class="card-title text-center bg-dark mb-0">@item.Name</h4>
+                            <div class="card-body">
+                                <p class="card-text cardTextHome" style="font-size:16px;">
+                                    @Html.DisplayNameFor(modelItem => item.Win) : @item.Win
+                                    @Html.DisplayNameFor(modelItem => item.Loose) : @item.Loose
+                                    @Html.DisplayNameFor(modelItem => item.Draw) : @item.Draw
+                                </p>
+                            </div>
+                            <div class="card-footer text-center row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary">@Html.ActionLink("DETAILS", "DetailedHero", "DetailedHeroView", new { id = item.ApiId }, htmlAttributes: new { id = item.ApiId })</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary">@Html.ActionLink("FIGHT", "BattleRandom", "Battle", new { leftHeroApiId = item.ApiId, rightHeroApiId = rnd.Next(1, 733) }, htmlAttributes: new { })</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+
+        </div>
+    }
+
+</div>

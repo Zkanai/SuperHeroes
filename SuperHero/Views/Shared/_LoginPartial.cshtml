@@ -1,0 +1,20 @@
+﻿@if (Session["role"]?.ToString() == "member")
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="pr-1">
+            @Html.ActionLink("Hello "+ Session["userName"] + "!", "", "")
+        </li>
+        <li class="pl-2">
+            @Html.ActionLink("Log off", "LogOff", "LogOff", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+    </ul>
+
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="pr-1">@Html.ActionLink("Register", "Register", "RegisterUserView", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li class="pl-2">@Html.ActionLink("Log in", "Login", "LoginView", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+

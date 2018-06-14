@@ -1,0 +1,356 @@
+﻿html, body {
+    height: 100%;
+}
+
+.body-content {
+    height: 100%;
+}
+
+/*<---------THIS IS THE HEADER SECTION-------------->*/
+#header {
+    background-color: red;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 26px;
+}
+
+.navbar-brand {
+    font-size: 30px;
+    color: blue !important;
+}
+
+.navbar-nav li a {
+    color: white !important;
+}
+
+    .navbar-nav li a:hover {
+        color: blue !important;
+    }
+
+/*<---------HEADER SECTION END-------------- > */
+
+
+#footer {
+    background-color: blue;
+    color: white;
+    height: 50px;
+    text-align: center;
+    font-family: 'Permanent Marker', cursive;   
+}
+
+#indexHome {
+    padding-top: 80px;
+    padding-bottom: 120px;
+    background-image: url("../img/home2.jpg");
+    background-size: cover;
+    font-family: 'Permanent Marker', cursive;
+    height: 100%;
+}
+
+    #indexHome .card .card-footer a {
+        color: white !important;
+    }
+
+        #indexHome .card .card-footer a:hover {
+            color: red !important;
+        }
+
+#indexHomeNoFav {
+    padding-top: 50px;
+}
+
+#indexHomeCardNoFavHeroes {
+    background-color: rgba(6, 82, 221,0.3) !important;
+}
+
+.card {
+    background-color: rgba(6, 82, 221,0.5) !important;
+    color: white;
+}
+
+.card-text {
+    font-size: 20px;
+}
+
+.cardTextHome {
+    font-size: 16px;
+}
+
+#login {
+    padding-top: 100px;
+    padding-left: 80px;
+    background-image: url("../img/login.jpg");
+    background-size: cover;
+    height: 100%;
+    color: white !important;
+    font-family: 'Permanent Marker', cursive;
+}
+
+    #login .card {
+        background-color: rgba(127, 140, 141,0.2) !important;
+    }
+
+    #login .btn:hover {
+        color: red;
+    }
+
+.loginRegister {
+    color: red !important;
+    font-size: 26px;
+}
+
+    .loginRegister:hover {
+        color: white !important;
+    }
+
+    .loginRegister:link {
+        color: red;
+        font-size: 26px;
+    }
+
+#register {
+    padding-top: 100px;
+    background-image: url("/img/register.png");
+    background-size: cover;
+    color: white;
+    height: 100%;
+    font-family: 'Permanent Marker', cursive;
+}
+
+    #register .btn:hover {
+        color: red;
+    }
+
+/*<---------------------CHOOSE HERO VIEW SECTION START--------------------->*/
+
+#chooseHero {
+    padding-top: 80px;
+    padding-bottom: 200px;
+    padding-left: 30px;
+    background-image: url("../img/superhero-movies.jpg");
+    background-size: cover;
+    font-family: 'Permanent Marker', cursive;
+}
+
+#userHeroCard {
+    visibility: hidden;
+}
+
+#opponentHeroCard {
+    visibility: hidden;
+}
+
+
+#chooseHeroStart {
+    padding-top: 100px;
+}
+
+#chooseUserHeroCardTitle:hover {
+    color: red;
+    background-color: #232323 !important;
+    cursor: pointer;
+}
+
+#chooseUserHeroCardBody {
+    display: none;
+}
+
+#chooseOpponentHeroCardTitle:hover {
+    color: red;
+    background-color: #232323 !important;
+    cursor: pointer;
+}
+
+#chooseOpponentHeroCardBody {
+    display: none;
+}
+
+#chooseHero #userHeroCard, #opponentHeroCard {
+    background-color: rgba(6, 82, 221,0.7) !important;
+}
+
+#startButton {
+    font-size: 36px;
+    background-color: rgba(6, 82, 221,0.9) !important;
+}
+   
+#randomEnemyButton {
+    font-size: 36px;
+    background-color: rgba(6, 82, 221,0.9) !important;
+}
+ 
+
+/*<---------------------CHOOSE HERO VIEW SECTION END--------------------->*/
+
+/*<-----------------BATTLE VIEW SECTION START------------------------>*/
+#battleArena {
+    font-family: 'Permanent Marker', cursive;
+    padding-top: 60px;
+    padding-bottom: 200px;
+    background-image: url("/img/Arena_Battle_Background.jpg");
+    background-size: cover;
+}
+
+    #battleArena .card-title:hover {
+        color: red;
+        background-color: #232323 !important;
+        cursor: pointer;
+    }
+
+    #battleArena #userHeroCardBody {
+        display: none;
+        font-size: 20px;
+    }
+
+        #battleArena #userHeroCardBody label:hover {
+            cursor: pointer;
+            color: red;
+        }
+
+.noHoverOnLabel {
+    cursor: not-allowed!important;
+    color: rgba(236, 240, 241,0.7)!important;
+}
+
+    #battleArena #opponentHeroCardBody {
+        display: none;
+        font-size: 20px;
+    }
+
+
+#fightButton {
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+#fight {
+    font-size: 40px;
+}
+
+.fightRed {
+    color: red !important;
+}
+
+#resultModalBody {
+    background-image: url("/img/winner.jpg");
+    background-size: cover;
+}
+
+.fightEnd a {
+    color: white;
+}
+
+    .fightEnd a:hover {
+        color: red;
+    }
+
+#result {
+    font-size: 26px;
+}
+
+/*<-----------------BATTLE VIEW SECTION END------------------------>*/
+
+#searchView {
+    font-family: 'Permanent Marker', cursive;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background-image: url("../img/marvel-dc.jpg");
+    background-size: contain;
+}
+
+    #searchView .card .btn a {
+        color: white !important;
+    }
+
+    #searchView .card .btn:hover a {
+        color: red !important;
+    }
+
+    #searchView .modal-content {
+        background-color: rgba(6, 82, 221,0.5) !important;
+    }
+
+    #searchView .modal-footer .btn a {
+        color: white !important;
+    }
+
+        #searchView .modal-footer .btn a:hover {
+            color: red !important;
+        }
+
+#detailedHeroView {
+    font-family: 'Permanent Marker', cursive;
+    padding-top: 100px;
+    padding-bottom: 80px;
+    background-color: #95a5a6;
+    background-image: url("/img/captain-america.jpg");
+    background-size: cover;
+    height: 100%;
+}
+
+#heroStatCard {
+    margin-right: 100px;
+}
+
+    #heroStatCard .card {
+        background-color: rgba(6, 82, 221,0.5) !important;
+    }
+
+    #heroStatCard .btn a {
+        color: white !important;
+    }
+
+        #heroStatCard .btn a:hover {
+            color: red !important;
+        }
+
+#heroBioCard {
+    margin-left: 100px;
+}
+
+    #heroBioCard .card {
+        background-color: rgba(6, 82, 221,0.5) !important;
+    }
+
+#addToFavourite {
+    background-color: rgba(6, 82, 221,0.9) !important;
+    border: 2px solid rgba(234, 32, 39,0.5);
+}
+
+    #addToFavourite a {
+        color: white !important;
+        font-size: 24px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    #addToFavourite :hover {
+        color: red !important;
+    }
+
+#removeFromFavourite {
+    background-color: rgba(6, 82, 221,0.9) !important;
+    border: 2px solid rgba(234, 32, 39,0.5);
+}
+
+    #removeFromFavourite a {
+        color: white !important;
+        font-size: 24px;
+    }
+
+    #removeFromFavourite :hover {
+        color: red !important;
+    }
+
+.apiNotWorking {
+    background-color: rgba(6, 82, 221,0.9) !important;
+    border: 2px solid rgba(234, 32, 39,0.5);
+}
+
+    .apiNotWorking a {
+        color: white !important;
+        font-size: 24px;
+    }
+
+    .apiNotWorking :hover {
+        color: red !important;
+    }
