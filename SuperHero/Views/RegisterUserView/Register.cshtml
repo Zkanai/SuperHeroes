@@ -13,7 +13,7 @@
 
         <div class="form-horizontal row justify-content-around" style="padding-top: 40px;">          
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="col-xl-4 col-lg-4 card">
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-7 col-10 card pb-5">
                 <div class="form-group pt-3">
                     @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
                     <div class="">
@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 col-lg-4 card">
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-7 col-10 card pb-5">
                 <div class="form-group pt-3">
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
                     <div class="">

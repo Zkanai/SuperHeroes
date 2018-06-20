@@ -11,6 +11,7 @@ namespace SuperHero.Controllers
             Session["role"] = "";
             Session["userName"] = "";
             Session["userId"] = null;
+            Session["heroToShowId"] = null;
             return RedirectToAction("Index", "Home");
         }
     }

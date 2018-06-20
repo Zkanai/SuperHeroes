@@ -1,4 +1,5 @@
 ﻿
+
 //manage a hero card to toggle the body with click on the hero name
 function CardTitleToggleButton(cardTitle, cardBody) {
     let clickCount = 0;
@@ -264,17 +265,45 @@ function ChooseHeroView() {
 }
 
 function SearchView() {
-
+    let detailHeroId = "";
     $(".detailsButton").click(function () {
+        detailHeroId = $(this).val();
         $("#detailsModal").modal("show");
     });
+
+    //post the sought hero id to controller
+    //get back the login url with hero id as parameter
+    $(".heroToShow").click(function () {
+        $.ajax({
+            url: '/SearchView/HeroToLogin',
+            dataType: "json",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                HeroId:detailHeroId
+            }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {               
+                
+            },
+            error: function (xhr) {
+               
+            }
+        })
+    });
+
 }
 
 $(document).ready(function () {
 
     PictureSwap();
+
     SearchView();
+
     ChooseHeroView();
+
     BattleView();
 
 });

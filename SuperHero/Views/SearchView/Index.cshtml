@@ -72,11 +72,11 @@ else
                         </div>
                         <div class="modal-footer row justify-content-center" style="border:none;">
                             <div class="col-4">
-                                <button type="button" class="btn btn-primary">@Html.ActionLink("Register", "Register", "RegisterUserView")</button>
+                                <button type="button" class="btn btn-primary heroToShow">@Html.ActionLink("REGISTER", "Register", "RegisterUserView")</button>
                             </div>
                             <div class="col-3"></div>
                             <div class="col-4 justify-content-end align-content-end text-right">
-                                <button type="button" class="btn btn-primary">@Html.ActionLink("Login Now", "Login", "LoginView")</button>
+                                <button type="button" class="btn btn-primary heroToShow">@Html.ActionLink("LOGIN NOW", "Login", "LoginView")</button>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@ else
                             }
                             else
                             {
-                                <button type="button" class="btn btn-primary detailsButton">MORE DETAILS</button>
+                                <button type="button" class="btn btn-primary detailsButton" value="@item.ApiId">MORE DETAILS</button>
                             }
                         </div>
                     </div>

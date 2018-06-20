@@ -4,6 +4,7 @@ using SuperHero.ManageApi;
 using SuperHero.Models;
 using SuperHero.Models.ApiModels;
 using System;
+using SuperHero.Models.JsonFromJqueryModels;
 
 namespace SuperHero.Controllers
 {
@@ -61,5 +62,20 @@ namespace SuperHero.Controllers
             }
 
         }
+
+        //POST: FROM JQUERY AJAX
+        //when user want to check hero details
+        //but not logged in yet
+        //so store the hero in session, to show after login
+        [HttpPost] 
+        public ActionResult HeroToLogin(DetailHeroToLogin data)
+        {
+
+            Session["heroToShowId"] = data.HeroId;
+
+            return Json(data);
+        }
+
+
     }
 }

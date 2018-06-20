@@ -9,6 +9,8 @@ namespace SuperHero.ManageBattle
 {
     public class Duel
     {
+       
+
         /// <summary>
         /// manage the battle,
         /// save the result of the battle to db,
@@ -16,7 +18,7 @@ namespace SuperHero.ManageBattle
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Combat(Combat data, int? sessionUserId, SuperHeroDBEntities db)
+        public static string Combat(Combat data, int? sessionUserId)
         {
             var model = new BattleViewModel();
             Random rnd = new Random();
@@ -28,20 +30,15 @@ namespace SuperHero.ManageBattle
 
             try
             {
-                var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
-
+                
                 //when we get heroes those not exactly modelled
                 //then we increase their  attributes
                 //to make more exciting the fight
                 if (data.UserHeroStat>100)
-                {
                     data.UserHeroStat += rnd.Next(50,151);
-                }
 
-                if (data.OpponentHeroStat > 100)
-                {
-                    data.OpponentHeroStat += rnd.Next(50, 151);
-                }
+                if (data.OpponentHeroStat > 100)      
+                    data.OpponentHeroStat += rnd.Next(50, 151);                
 
                 //here is the combat logic
                 if (data.UserHeroSkill >= data.OpponentHeroSkill)
@@ -58,17 +55,17 @@ namespace SuperHero.ManageBattle
                 //manage the result, write out to the user, and save the battle into db
                 if (data.UserHeroStat > data.OpponentHeroStat)
                 {
-                    SaveBattelog(data.LeftHeroId, data.RightHeroId, data.LeftHeroId, userId, db);
+                    SaveBattelog(data.LeftHeroId, data.RightHeroId, data.LeftHeroId, userId);
                     return $"The winner is {data.UserHeroName}!!!";
                 }
                 else if (data.UserHeroStat < data.OpponentHeroStat)
                 {
-                    SaveBattelog(data.LeftHeroId, data.RightHeroId, data.RightHeroId, userId, db);
+                    SaveBattelog(data.LeftHeroId, data.RightHeroId, data.RightHeroId, userId);
                     return $"The winner is {data.OpponentHeroName}!!!";
                 }
                 else
                 {
-                    SaveBattelog(data.LeftHeroId, data.RightHeroId, null, userId, db);
+                    SaveBattelog(data.LeftHeroId, data.RightHeroId, null, userId);
                     return "The fight ends with a draw!!!";
                 }
             }
@@ -87,7 +84,7 @@ namespace SuperHero.ManageBattle
         /// <param name="userHeroId"></param>
         /// <param name="opponentHeroId"></param>
         /// <param name="winnerId"></param>
-        public static void SaveBattelog(int userHeroId, int opponentHeroId, int? winnerId, int userId, SuperHeroDBEntities db)
+        public static void SaveBattelog(int userHeroId, int opponentHeroId, int? winnerId, int userId)
         {
             var newLog = new BattleLog();
 
@@ -99,6 +96,7 @@ namespace SuperHero.ManageBattle
                 newLog.WinnerHeroId = winnerId;
                 newLog.UserId = userId;
 
+                SuperHeroDBEntities db = new SuperHeroDBEntities();
                 //insert record to the db
                 using (var transaction = db.Database.BeginTransaction())
                 {

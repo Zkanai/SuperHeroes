@@ -18,5 +18,6 @@ namespace SuperHero.Models
         [Required(ErrorMessage = "Required field!")]
         [Display(Name = "Password")]
         public string PassWord { get; set; }  
+        
     }
 }

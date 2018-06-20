@@ -7,6 +7,7 @@ using SuperHero.Models.JsonFromJqueryModels;
 using SuperHero.Models.ApiModels;
 using SuperHero.ManageApi;
 using SuperHero.ManageBattle;
+using System.Data.Entity;
 
 namespace SuperHero.Controllers
 {
@@ -101,7 +102,7 @@ namespace SuperHero.Controllers
             var userHeroApiId = (int)leftHeroApiId;
             var opponentHeroApiId = (int)rightHeroApiId;
             var model = new BattleViewModel();
-            var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
+            var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
 
             var userFavHeroApiIdList = user.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
 
@@ -138,7 +139,7 @@ namespace SuperHero.Controllers
                 var userHeroApiId = (int)leftHeroApiId;
                 var opponentHeroApiId = (int)rightHeroApiId;
                 var model = new BattleViewModel();
-                var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
+                var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
 
                 var userHeroApiIdList = user.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
                 var apiIdList = db.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
@@ -175,7 +176,7 @@ namespace SuperHero.Controllers
                 //mapping userHero
                 var userId = (int)Session["userId"];
                 var userHeroApiId = (int)leftHeroApiId;
-                var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
+                var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var model = new BattleViewModel();
                 var userHero = user.FavouriteSuperHero.Where(hero => hero.ApiId == userHeroApiId).FirstOrDefault();
                 model.UserHero = userHero;
@@ -205,7 +206,7 @@ namespace SuperHero.Controllers
 
             var userId = (int)Session["userId"];
 
-            return Json(Duel.Combat(data, userId, db));
+            return Json(Duel.Combat(data, userId));
         }
 
 

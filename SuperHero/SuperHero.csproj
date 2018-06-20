@@ -208,6 +208,7 @@
     <Compile Include="Models\DetailedHeroViewModel.cs" />
     <Compile Include="Models\FavouriteSuperHeroViewModel.cs" />
     <Compile Include="Models\JsonFromJqueryModels\Combat.cs" />
+    <Compile Include="Models\JsonFromJqueryModels\DetailHeroToLogin.cs" />
     <Compile Include="Models\JsonFromJqueryModels\OpponentHeroData.cs" />
     <Compile Include="Models\JsonFromJqueryModels\UserHeroData.cs" />
     <Compile Include="Models\LoginViewModel.cs" />

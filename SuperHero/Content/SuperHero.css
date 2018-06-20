@@ -109,10 +109,10 @@
 
 #register {
     padding-top: 100px;
+    padding-bottom:250px;
     background-image: url("/img/register.png");
     background-size: cover;
-    color: white;
-    height: 100%;
+    color: white;  
     font-family: 'Permanent Marker', cursive;
 }
 
@@ -172,11 +172,21 @@
     font-size: 36px;
     background-color: rgba(6, 82, 221,0.9) !important;
 }
+
+    #startButton:enabled:hover {
+        color: white !important;
+        box-shadow: white 3px 3px;
+    }
    
 #randomEnemyButton {
     font-size: 36px;
     background-color: rgba(6, 82, 221,0.9) !important;
 }
+
+    #randomEnemyButton:enabled:hover {
+        color: white !important;
+        box-shadow: white 3px 3px;
+    }
  
 
 /*<---------------------CHOOSE HERO VIEW SECTION END--------------------->*/

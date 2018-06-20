@@ -16,7 +16,9 @@ namespace SuperHero.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+
             return View();
+            
         }
 
         // POST: Login
@@ -52,6 +54,15 @@ namespace SuperHero.Controllers
             var userId = db.User.Where(u => (u.UserName == model.UserName) || (u.Email == model.UserName))
                                 .Select(u => u.Id).FirstOrDefault();
             Session["userId"] = userId;
+
+            //when user come here from searching first,
+            //redirect to the hero details view by the hero id
+            var heroToShowId = Session["heroToShowId"]?.ToString();
+
+            if (heroToShowId != null)
+            {
+                return RedirectToAction("DetailedHero", "DetailedHeroView", new { id = heroToShowId });
+            }
 
             return RedirectToAction("Index", "Home");
         }

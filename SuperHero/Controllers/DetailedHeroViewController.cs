@@ -56,32 +56,34 @@ namespace SuperHero.Controllers
         /// <summary>
         /// mapping the data from our db
         /// or if the hero not in our db then mapping
-        /// a not availabée hero
+        /// a not available hero
         /// </summary>
         /// <param name="model"></param>
         /// <param name="hero"></param>
         /// <returns></returns>
         public DetailedHeroViewModel Mapping(DetailedHeroViewModel model, FavouriteSuperHero hero)
         {
+            var infoWhenApiNA = "Temporarily Unavailable!";
+
             try
             {
                 //if the hero doesn't exist in our db yet
                 if (hero == null)
                 {
-                    model.Name = "Temporarily Unavailable!";
+                    model.Name = infoWhenApiNA;
                     model.ImageUrl = "../../../img/pictureNA.jpg";
-                    model.BiographyData.Full_Name = "Temporarily Unavailable!";
-                    model.BiographyData.Alignment = "Temporarily Unavailable!";
-                    model.BiographyData.Place_Of_Birth = "Temporarily Unavailable!";
-                    model.BiographyData.Publisher = "Temporarily Unavailable!";
-                    model.AppearanceValues.Gender = "Temporarily Unavailable!";
-                    model.AppearanceValues.Race = "Temporarily Unavailable!";
-                    model.Powerstat.Intelligence = "Temporarily Unavailable!";
-                    model.Powerstat.Strength = "Temporarily Unavailable!";
-                    model.Powerstat.Speed = "Temporarily Unavailable!";
-                    model.Powerstat.Durability = "Temporarily Unavailable!";
-                    model.Powerstat.Power = "Temporarily Unavailable!";
-                    model.Powerstat.Combat = "Temporarily Unavailable!";
+                    model.BiographyData.Full_Name = infoWhenApiNA;
+                    model.BiographyData.Alignment = infoWhenApiNA;
+                    model.BiographyData.Place_Of_Birth = infoWhenApiNA;
+                    model.BiographyData.Publisher = infoWhenApiNA;
+                    model.AppearanceValues.Gender = infoWhenApiNA;
+                    model.AppearanceValues.Race = infoWhenApiNA;
+                    model.Powerstat.Intelligence = infoWhenApiNA;
+                    model.Powerstat.Strength = infoWhenApiNA;
+                    model.Powerstat.Speed = infoWhenApiNA;
+                    model.Powerstat.Durability = infoWhenApiNA;
+                    model.Powerstat.Power = infoWhenApiNA;
+                    model.Powerstat.Combat = infoWhenApiNA;
 
                     return model;
                 }
@@ -91,11 +93,11 @@ namespace SuperHero.Controllers
                 model.Name = hero.Name;
                 model.ImageUrl = hero.ImgUrl;
                 model.BiographyData.Full_Name = hero.RealName;
-                model.BiographyData.Alignment = "Temporary Unavailable!";
-                model.BiographyData.Place_Of_Birth = "Temporary Unavailable!";
-                model.BiographyData.Publisher = "Temporary Unavailable!";
-                model.AppearanceValues.Gender = "Temporary Unavailable!";
-                model.AppearanceValues.Race = "Temporary Unavailable!";
+                model.BiographyData.Alignment = infoWhenApiNA;
+                model.BiographyData.Place_Of_Birth = infoWhenApiNA;
+                model.BiographyData.Publisher = infoWhenApiNA;
+                model.AppearanceValues.Gender = infoWhenApiNA;
+                model.AppearanceValues.Race = infoWhenApiNA;
                 model.Powerstat.Intelligence = hero.Intelligence.ToString();
                 model.Powerstat.Strength = hero.Strength.ToString();
                 model.Powerstat.Speed = hero.Speed.ToString();
@@ -145,17 +147,13 @@ namespace SuperHero.Controllers
                 model.IsFavourite = false;
 
                 var userId = (int)Session["userId"];
-                var userFavSuperHeroes = db.User.Where(u => u.Id == userId).First().FavouriteSuperHero.ToList();
+                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
 
                 //to help check if the hero is already a favourite one
-                //that the user actually viewing
-                foreach (var userFavHero in userFavSuperHeroes)
-                {
-                    if (userFavHero.ApiId == heroId)
-                    {
-                        model.IsFavourite = true;
-                    }
-                }
+                //that the user actually viewing                          
+                if (userFavSuperHeroesIdList.Contains(heroId))
+                    model.IsFavourite = true;
 
                 //mapping if we get back the hero from api
                 model = Mapping(model, hero);
@@ -169,18 +167,14 @@ namespace SuperHero.Controllers
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
 
-                var userId = (int)Session["userId"];
-                var userFavSuperHeroes = db.User.Where(u => u.Id == userId).First().FavouriteSuperHero.ToList();
+                var userId = (int)Session["userId"];      
+                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
 
                 //to help check if the hero is already a favourite one
-                //that the user actually viewing
-                foreach (var userFavHero in userFavSuperHeroes)
-                {
-                    if (userFavHero.ApiId == heroId)
-                    {
-                        model.IsFavourite = true;
-                    }
-                }
+                //that the user actually viewing                          
+                if (userFavSuperHeroesIdList.Contains(heroId))
+                    model.IsFavourite = true;
 
                 var heroFromDb = db.FavouriteSuperHero.Where(h => h.ApiId == heroId).FirstOrDefault();
                 model = Mapping(model, heroFromDb);
@@ -204,26 +198,21 @@ namespace SuperHero.Controllers
 
                 #region Validtion
                 if (id == null || Session["userId"] == null)
-                {
                     return RedirectToAction("Index", "Home");
-                }
+
 
                 if (!int.TryParse(id, out apiId))
-                {
                     return RedirectToAction("Index", "Home");
-                }
+
 
                 var userId = (int)Session["userId"];
-                var userFavSuperHeroes = db.User.Where(u => u.Id == userId).First().FavouriteSuperHero.ToList();
+                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
 
                 //if this hero already in the user favourites
-                foreach (var userFavHero in userFavSuperHeroes)
-                {
-                    if (userFavHero.ApiId == apiId)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
+                if (userFavSuperHeroesIdList.Contains(apiId))
+                    return RedirectToAction("Index", "Home");
+
                 #endregion
 
                 var hero = await ApiCall.GetHeroById(apiId);
@@ -232,27 +221,27 @@ namespace SuperHero.Controllers
                 //if the hero is already in database
                 //the program just add the hero to the user fav list
                 //but won't save in the db
-                var favHeroIdList = db.FavouriteSuperHero.Select(h=>h.ApiId).ToList();
+                var favHeroIdList = db.FavouriteSuperHero.Select(h => h.ApiId);
                 if (favHeroIdList.Contains(apiId))
-                    {
-                        var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
-                        var heroToSave = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
-                        using (DbContextTransaction tran = db.Database.BeginTransaction())
-                        {
-                            user.FavouriteSuperHero.Add(heroToSave);
-                            db.Entry(user).State = EntityState.Modified;
-                            db.SaveChanges();
-                            tran.Commit();
-                        }
-                      
-                        //mapping back the model from api
-                        model = new DetailedHeroViewModel();
-                        model = Mapping(model, hero);
-                        model.IsFavourite = true;
+                {
 
-                        return View("DetailedHero", model);
+                    var heroToSave = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
+                    using (DbContextTransaction tran = db.Database.BeginTransaction())
+                    {
+                        user.FavouriteSuperHero.Add(heroToSave);
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+                        tran.Commit();
                     }
-                
+
+                    //mapping back the model from api
+                    model = new DetailedHeroViewModel();
+                    model = Mapping(model, hero);
+                    model.IsFavourite = true;
+
+                    return View("DetailedHero", model);
+                }
+
                 //if the hero doesn't exist in the db yet
                 //then we create a new one, add to the user
                 //and save to the db
@@ -269,7 +258,7 @@ namespace SuperHero.Controllers
                 newFavouriteHero.Durability = ApiCall.StatStringToInt(hero.Powerstats.Durability);
                 newFavouriteHero.Power = ApiCall.StatStringToInt(hero.Powerstats.Power);
                 newFavouriteHero.Combat = ApiCall.StatStringToInt(hero.Powerstats.Combat);
-                newFavouriteHero.User = db.User.Where(u => u.Id == userId).ToList();
+                newFavouriteHero.User.Add(user);
 
                 //insert record to db
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
@@ -292,29 +281,27 @@ namespace SuperHero.Controllers
                 //the program just add the hero to the user fav list
                 //but won't save in the db
                 var userId = (int)Session["userId"];
-                var favHeroList = db.FavouriteSuperHero.ToList();
-                foreach (var favHero in favHeroList)
+                var favHeroIdList = db.FavouriteSuperHero.Select(h => h.ApiId);
+                if (favHeroIdList.Contains(apiId))
                 {
-                    if (favHero.ApiId == apiId)
+
+                    var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
+                    var heroToSave = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
+                    using (DbContextTransaction tran = db.Database.BeginTransaction())
                     {
-                        var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
-                        var heroToSave = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
-                        using (DbContextTransaction tran = db.Database.BeginTransaction())
-                        {
-                            user.FavouriteSuperHero.Add(heroToSave);
-                            db.Entry(user).State = EntityState.Modified;
-                            db.SaveChanges();
-                            tran.Commit();
-                        }
-
-                        //mapping back the model if we can't reach the api                       
-                        var model = new DetailedHeroViewModel();
-                        var heroFromDb = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
-                        model = Mapping(model, heroFromDb);
-                        model.IsFavourite = true;
-
-                        return View("DetailedHero", model);
+                        user.FavouriteSuperHero.Add(heroToSave);
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+                        tran.Commit();
                     }
+
+                    //mapping back the model if we can't reach the api                       
+                    var model = new DetailedHeroViewModel();
+                    model = Mapping(model, heroToSave);
+                    model.IsFavourite = true;
+
+                    return View("DetailedHero", model);
+
                 }
 
                 throw new Exception("The api not available, and the hero is not in our db!");
@@ -346,7 +333,7 @@ namespace SuperHero.Controllers
                 #endregion
 
                 var userId = (int)Session["userId"];
-                var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
+                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var userFavouriteHero = user.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
 
                 //delete record from db
@@ -360,7 +347,7 @@ namespace SuperHero.Controllers
 
                 var hero = await ApiCall.GetHeroById(apiId);
                 var model = new DetailedHeroViewModel();
-              
+
                 //mapping back the model from api               
                 model = Mapping(model, hero);
                 model.IsFavourite = false;

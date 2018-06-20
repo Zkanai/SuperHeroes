@@ -29,13 +29,13 @@ namespace SuperHero.Controllers
                 var emailList = db.User.Select(u => u.Email).ToList();
 
                 if (model.PassWord != model.ConfirmPassWord)
-                    ModelState.AddModelError(nameof(model.ConfirmPassWord), "A két jelszónak meg kell egyeznie!");
+                    ModelState.AddModelError(nameof(model.ConfirmPassWord), "The two passwords has to be same!");
 
                 if (userNameList.Contains(model.UserName))
-                    ModelState.AddModelError(nameof(model.UserName), "Már létezik ilyen felhasználó név!");
+                    ModelState.AddModelError(nameof(model.UserName), "Already exists!");
 
                 if (emailList.Contains(model.Email))
-                    ModelState.AddModelError(nameof(model.Email), "Már regisztráltak ilyen email-címmel!");
+                    ModelState.AddModelError(nameof(model.Email), "Already exists!");
 
                 if (!ModelState.IsValid)
                 {
@@ -45,7 +45,8 @@ namespace SuperHero.Controllers
 
                 var salt = Crypto.GenerateSalt();
                 var hashedPw = Crypto.SHA256(model.PassWord+salt);
-                //insert record to the publication table
+
+                //mapping
                 User user = new User();
                 user.UserName = model.UserName;
                 user.Email = model.Email;
@@ -53,6 +54,7 @@ namespace SuperHero.Controllers
                 user.Name = model.Name;             
                 user.Salt = salt;
 
+                //insert record to the db
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
                 {
                     db.User.Add(user);
@@ -64,6 +66,14 @@ namespace SuperHero.Controllers
                 Session["role"] = "member";
                 Session["userId"] = userIdList.LastOrDefault();
                 Session["userName"] = user.Name;
+
+                //when user come here from searching first,
+                //redirect to the hero details view by the hero id
+                var heroToShowId = Session["heroToShowId"]?.ToString();
+
+                if (heroToShowId != null)
+                    return RedirectToAction("DetailedHero", "DetailedHeroView", new { id = heroToShowId });
+
 
                 return RedirectToAction("Index", "Home");
             }

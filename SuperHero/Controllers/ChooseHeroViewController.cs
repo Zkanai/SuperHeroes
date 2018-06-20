@@ -10,6 +10,25 @@ namespace SuperHero.Controllers
     {
         SuperHeroDBEntities db = new SuperHeroDBEntities();
 
+        /// <summary>
+        /// mapping back the view model,
+        /// when something goes wrong
+        /// </summary>
+        /// <returns></returns>
+        public ChooseHeroesViewModel Mapping()
+        {
+            //mapping back
+            var model = new ChooseHeroesViewModel();
+            var userId = (int)Session["userId"];
+            var favSuperHeroList = db.User.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
+
+            ViewBag.HeroList = favSuperHeroList;
+            model.UserHeroList = favSuperHeroList;
+            model.OpponentHeroList = favSuperHeroList;
+
+            return model;
+        }
+
         // GET: ChooseHeroView
         public ActionResult ChooseHero()
         {
@@ -20,7 +39,7 @@ namespace SuperHero.Controllers
                 try
                 {
                     var userId = (int)Session["userId"];
-                    var favSuperHeroList = db.User.Where(u => u.Id == userId).First().FavouriteSuperHero.ToList();
+                    var favSuperHeroList = db.User.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
 
                     ViewBag.HeroList = favSuperHeroList;
                     model.UserHeroList = favSuperHeroList;
@@ -54,18 +73,12 @@ namespace SuperHero.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
+                //got wrong invalid userhero
+                //relaod the page
                 if (data.UserHeroId == null || data.UserHeroId <= 0)
                 {
-                    //mapping back
-                    var model = new ChooseHeroesViewModel();
-                    var userId = (int)Session["userId"];
-                    var favSuperHeroList = db.User.Where(u => u.Id == userId).First().FavouriteSuperHero.ToList();
-
-                    ViewBag.HeroList = favSuperHeroList;
-                    model.UserHeroList = favSuperHeroList;
-                    model.OpponentHeroList = favSuperHeroList;
-
-                    return View(nameof(ChooseHero), model);
+                    //mapping the model back and return the view
+                    return View(nameof(ChooseHero), Mapping());
                 }
                 #endregion
 
@@ -111,16 +124,8 @@ namespace SuperHero.Controllers
 
                 if (data.OpponentHeroId == null || data.OpponentHeroId <= 0)
                 {
-                    //mapping back
-                    var model = new ChooseHeroesViewModel();
-                    var userId = (int)Session["userId"];
-                    var favSuperHeroList = db.User.Where(u => u.Id == userId).First().FavouriteSuperHero.ToList();
-
-                    ViewBag.HeroList = favSuperHeroList;
-                    model.UserHeroList = favSuperHeroList;
-                    model.OpponentHeroList = favSuperHeroList;
-
-                    return View(nameof(ChooseHero), model);
+                    //mapping the model back and return the view                  
+                    return View(nameof(ChooseHero), Mapping());
                 }
                 #endregion
 

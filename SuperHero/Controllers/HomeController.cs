@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using SuperHero.Models;
+using System.Data.Entity;
 
 
 namespace SuperHero.Controllers
@@ -22,7 +23,7 @@ namespace SuperHero.Controllers
                 if (Session?["userId"] != null)
                 {
                     var userId = (int)Session["userId"];
-                    var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
+                    var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
 
                     if (user==null)
                     {
