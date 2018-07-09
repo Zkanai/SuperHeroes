@@ -12,7 +12,7 @@ namespace SuperHero.ManageApi
 {
 
     /// <summary>
-    /// this class helps to manage to get datas from the api //just a test
+    /// this class helps to manage to get datas from the api just test
     /// </summary>
     public static class ApiCall
     {
