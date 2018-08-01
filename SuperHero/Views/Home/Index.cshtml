@@ -3,17 +3,17 @@
     ViewBag.Title = "Home Page";
     Random rnd = new Random();
 }
-<div id="indexHome" class="container-fluid ">
+<div id="indexHome" class="row justify-content-center">
 
     @if (Session["role"]?.ToString() == "member")
     {
-        <div class="text-center">
+        <div class="text-center pt-5">
             <h4 class="" style="font-size:28px;color:white;">YOUR FAVOURITE HEROES</h4>
         </div>
     }
     else
     {
-        <div class="text-center">
+        <div class="text-center pt-5">
             <h4 class="" style="font-size:36px;color:red;">WELCOME TO OUR SITE</h4>
         </div>
     }
@@ -23,11 +23,11 @@
     {
         <div class="row justify-content-around">
 
-            <div class="col-lg-3 col-xl-3 col-md-5 col-sm-8 col-10 pt-3">
+            <div class="col-lg-3 col-xl-2 col-md-5 col-sm-8 col-10 pt-3">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title" style="color:red">SEARCH AND BATTLE</h4>
-                        <p class="card-text" style="font-size:14px;">
+                        <h4 class="card-title text-center" style="color:red">SEARCH &amp; BATTLE</h4>
+                        <p class="card-text text-center">
                             YOU COULD SEARCH HEROES FROM MARVEL AND DC UNIVERSE! SAVE YOUR FAVOURITE ONES!
                             GET MORE INFOS FROM THEM! TEST THEM IN BATTLES! YOU FIND THIS IN OUR SITE!
                             JUST REGISTER!
@@ -39,11 +39,11 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-xl-3 col-md-5 col-sm-8 col-10 pt-3">
+            <div class="col-lg-3 col-xl-2 col-md-5 col-sm-8 col-10 pt-3">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title" style="color:red">ABOUT AND SPONSORS</h4>
-                        <p class="card-text" style="font-size:14px;">
+                        <h4 class="card-title text-center" style="color:red">ABOUT &amp; SPONSORS</h4>
+                        <p class="card-text text-center">
                             WE ARE A BUNCH OF GEEKS AND NERDS FROM ALL OVER THE WORLD!
                             WANT TO DEVELOP FURTHER OUR SITE! FOR THE DATABASE WE HAVE A PARTNERSHIP!
                             CHECK THEIR SITE!

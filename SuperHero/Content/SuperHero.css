@@ -37,6 +37,9 @@
     font-family: 'Permanent Marker', cursive;   
 }
 
+
+/*<---------HOME SECTION-------------- > */
+
 #indexHome {
     padding-top: 80px;
     padding-bottom: 120px;
@@ -46,21 +49,32 @@
     height: 100%;
 }
 
+    #indexHome .card-text {
+    font-size:18px;
+    }
+
+@media (max-width: 1024px) {
+    #indexHome .card-text {
+        font-size: 14px;
+    }
+}
+
     #indexHome .card .card-footer a {
         color: white !important;
+        
     }
 
         #indexHome .card .card-footer a:hover {
             color: red !important;
         }
 
-#indexHomeNoFav {
-    padding-top: 50px;
-}
 
 #indexHomeCardNoFavHeroes {
     background-color: rgba(6, 82, 221,0.3) !important;
 }
+
+
+/*<---------HOME SECTION END-------------- > */
 
 .card {
     background-color: rgba(6, 82, 221,0.5) !important;
