@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SuperHero.Models
 {
-    public class LoginViewModel
+    public class LoginViewModeltest
     {
         public int Id { get; set; }
 
