@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using SuperHero.Models;
 using System.Data.Entity;
-
+using Microsoft.AspNet.Identity;
 
 namespace SuperHero.Controllers
 {
@@ -20,10 +20,9 @@ namespace SuperHero.Controllers
 
             try
             {
-                if (Session?["userId"] != null)
-                {
-                    var userId = (int)Session["userId"];
-                    var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                
+                    var userId = User.Identity.GetUserId();
+                    var user = db.AspNetUsers.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
 
                     if (user==null)
                     {
@@ -51,8 +50,7 @@ namespace SuperHero.Controllers
                         Draw = db.BattleLog.Where(log => log.UserHeroId == hero.ApiId && log.WinnerHeroId == null && log.UserId == userId).ToList().Count
 
                     }).ToList();
-                }
-
+                
                 return View(model);
             }
             catch (Exception)

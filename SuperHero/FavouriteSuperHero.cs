@@ -17,7 +17,7 @@ namespace SuperHero
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FavouriteSuperHero()
         {
-            this.User = new HashSet<User>();
+            this.AspNetUsers = new HashSet<AspNetUsers>();
         }
     
         public int Id { get; set; }
@@ -33,6 +33,6 @@ namespace SuperHero
         public string ImgUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> User { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
     }
 }

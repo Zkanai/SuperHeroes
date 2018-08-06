@@ -8,10 +8,12 @@ using SuperHero.Models.ApiModels;
 using SuperHero.ManageApi;
 using SuperHero.ManageBattle;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace SuperHero.Controllers
 {
 
+    [Authorize]
     public class BattleController : Controller
     {
 
@@ -93,16 +95,15 @@ namespace SuperHero.Controllers
 
             #region Validation
             //if not logged in or get nulls for heroes
-            if ((Session["userId"] == null) || rightHeroApiId == null || leftHeroApiId == null)
-            {
+            if (rightHeroApiId == null || leftHeroApiId == null)           
                 return RedirectToAction("Index", "Home");
-            }
+           
 
-            var userId = (int)Session["userId"];
+            var userId = User.Identity.GetUserId();
             var userHeroApiId = (int)leftHeroApiId;
             var opponentHeroApiId = (int)rightHeroApiId;
             var model = new BattleViewModel();
-            var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+            var user = db.AspNetUsers.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
 
             var userFavHeroApiIdList = user.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
 
@@ -129,17 +130,16 @@ namespace SuperHero.Controllers
             try
             {
                 #region Validation
-                //if not logged in or get nulls for heroes
-                if ((Session["userId"] == null) || rightHeroApiId == null || leftHeroApiId == null)
-                {
+                //if get nulls for heroes
+                if (rightHeroApiId == null || leftHeroApiId == null)               
                     return RedirectToAction("Index", "Home");
-                }
+                
 
-                var userId = (int)Session["userId"];
+                var userId = User.Identity.GetUserId();
                 var userHeroApiId = (int)leftHeroApiId;
                 var opponentHeroApiId = (int)rightHeroApiId;
                 var model = new BattleViewModel();
-                var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var user = db.AspNetUsers.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
 
                 var userHeroApiIdList = user.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
                 var apiIdList = db.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
@@ -174,9 +174,9 @@ namespace SuperHero.Controllers
             catch (ApiNotFoundException)
             {
                 //mapping userHero
-                var userId = (int)Session["userId"];
+                var userId = User.Identity.GetUserId();
                 var userHeroApiId = (int)leftHeroApiId;
-                var user = db.User.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var user = db.AspNetUsers.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var model = new BattleViewModel();
                 var userHero = user.FavouriteSuperHero.Where(hero => hero.ApiId == userHeroApiId).FirstOrDefault();
                 model.UserHero = userHero;
@@ -195,18 +195,14 @@ namespace SuperHero.Controllers
 
         }
 
-        //POST: FROM JQUERY AJAX
+        //POST: FROM JQUERY AJAX 
         [HttpPost]
         public JsonResult Battle(Combat data)
         {
-            if (Session["userId"] == null)
-            {
-                return Json("Something went wrong!");
-            }
 
-            var userId = (int)Session["userId"];
+            var userId = User.Identity.GetUserId();
 
-            return Json(Duel.Combat(data, userId));
+            return Json(Duel.Combat(data, User.Identity.GetUserId()));
         }
 
 

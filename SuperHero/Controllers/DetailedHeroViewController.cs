@@ -1,4 +1,5 @@
-﻿using SuperHero.ManageApi;
+﻿using Microsoft.AspNet.Identity;
+using SuperHero.ManageApi;
 using SuperHero.Models;
 using SuperHero.Models.ApiModels;
 using System;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace SuperHero.Controllers
 {
+    [Authorize]
     public class DetailedHeroViewController : Controller
     {
 
@@ -125,20 +127,11 @@ namespace SuperHero.Controllers
             try
             {
                 #region Validation
-                if (!int.TryParse(id, out heroId))
-                {
+                if (!int.TryParse(id, out heroId))                
                     return RedirectToAction("Index", "SearchView");
-                }
-
-                if (Session["userId"] == null)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-
-                if (heroId <= 0)
-                {
-                    return RedirectToAction("Index", "SearchView");
-                }
+                
+                if (heroId <= 0)             
+                    return RedirectToAction("Index", "SearchView");              
                 #endregion
 
                 var hero = await ApiCall.GetHeroById(heroId);
@@ -146,8 +139,8 @@ namespace SuperHero.Controllers
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
 
-                var userId = (int)Session["userId"];
-                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var userId = User.Identity.GetUserId();
+                var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
 
                 //to help check if the hero is already a favourite one
@@ -167,8 +160,8 @@ namespace SuperHero.Controllers
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
 
-                var userId = (int)Session["userId"];      
-                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var userId = User.Identity.GetUserId();
+                var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
 
                 //to help check if the hero is already a favourite one
@@ -197,7 +190,7 @@ namespace SuperHero.Controllers
             {
 
                 #region Validtion
-                if (id == null || Session["userId"] == null)
+                if (id == null)                    
                     return RedirectToAction("Index", "Home");
 
 
@@ -205,8 +198,8 @@ namespace SuperHero.Controllers
                     return RedirectToAction("Index", "Home");
 
 
-                var userId = (int)Session["userId"];
-                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var userId = User.Identity.GetUserId();
+                var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
 
                 //if this hero already in the user favourites
@@ -258,7 +251,7 @@ namespace SuperHero.Controllers
                 newFavouriteHero.Durability = ApiCall.StatStringToInt(hero.Powerstats.Durability);
                 newFavouriteHero.Power = ApiCall.StatStringToInt(hero.Powerstats.Power);
                 newFavouriteHero.Combat = ApiCall.StatStringToInt(hero.Powerstats.Combat);
-                newFavouriteHero.User.Add(user);
+                newFavouriteHero.AspNetUsers.Add(user);
 
                 //insert record to db
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
@@ -280,12 +273,12 @@ namespace SuperHero.Controllers
                 //if the hero is already in database
                 //the program just add the hero to the user fav list
                 //but won't save in the db
-                var userId = (int)Session["userId"];
+                var userId = User.Identity.GetUserId();
                 var favHeroIdList = db.FavouriteSuperHero.Select(h => h.ApiId);
                 if (favHeroIdList.Contains(apiId))
                 {
 
-                    var user = db.User.Where(u => u.Id == userId).FirstOrDefault();
+                    var user = db.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
                     var heroToSave = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
                     using (DbContextTransaction tran = db.Database.BeginTransaction())
                     {
@@ -306,9 +299,9 @@ namespace SuperHero.Controllers
 
                 throw new Exception("The api not available, and the hero is not in our db!");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                var msg = ex.Message;
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -321,19 +314,16 @@ namespace SuperHero.Controllers
             {
 
                 #region Validation
-                if (id == null || Session["userId"] == null)
-                {
+                if (id == null)                    
                     return RedirectToAction("Index", "Home");
-                }
 
-                if (!int.TryParse(id, out apiId))
-                {
+                if (!int.TryParse(id, out apiId))               
                     return RedirectToAction("Index", "Home");
-                }
+                
                 #endregion
 
-                var userId = (int)Session["userId"];
-                var user = db.User.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
+                var userId = User.Identity.GetUserId();
+                var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var userFavouriteHero = user.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
 
                 //delete record from db

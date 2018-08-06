@@ -12,12 +12,10 @@ namespace SuperHero
     using System;
     using System.Collections.Generic;
     
-    public partial class BattleLog
+    public partial class AspNetUserLogins
     {
-        public int Id { get; set; }
-        public int UserHeroId { get; set; }
-        public int OpponentHeroId { get; set; }
-        public Nullable<int> WinnerHeroId { get; set; }
+        public string LoginProvider { get; set; }
+        public string ProviderKey { get; set; }
         public string UserId { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }

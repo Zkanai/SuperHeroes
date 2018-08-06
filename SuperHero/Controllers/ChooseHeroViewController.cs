@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using SuperHero.Models;
 using SuperHero.Models.JsonFromJqueryModels;
 
 namespace SuperHero.Controllers
 {
+    [Authorize]
     public class ChooseHeroViewController : Controller
     {
         SuperHeroDBEntities db = new SuperHeroDBEntities();
@@ -19,8 +21,8 @@ namespace SuperHero.Controllers
         {
             //mapping back
             var model = new ChooseHeroesViewModel();
-            var userId = (int)Session["userId"];
-            var favSuperHeroList = db.User.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
+            var userId = User.Identity.GetUserId();
+            var favSuperHeroList = db.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
 
             ViewBag.HeroList = favSuperHeroList;
             model.UserHeroList = favSuperHeroList;
@@ -32,30 +34,25 @@ namespace SuperHero.Controllers
         // GET: ChooseHeroView
         public ActionResult ChooseHero()
         {
+
             var model = new ChooseHeroesViewModel();
 
-            if (Session["userId"] != null)
+            try
             {
-                try
-                {
-                    var userId = (int)Session["userId"];
-                    var favSuperHeroList = db.User.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
+                var userId = User.Identity.GetUserId();
+                var favSuperHeroList = db.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
 
-                    ViewBag.HeroList = favSuperHeroList;
-                    model.UserHeroList = favSuperHeroList;
-                    model.OpponentHeroList = favSuperHeroList;
+                ViewBag.HeroList = favSuperHeroList;
+                model.UserHeroList = favSuperHeroList;
+                model.OpponentHeroList = favSuperHeroList;
 
-                    return View();
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-
+                return View();
             }
+            catch (Exception)
+            {
 
-            return RedirectToAction("Index", "Home");
+                throw;
+            }
 
         }
 
@@ -67,12 +64,7 @@ namespace SuperHero.Controllers
 
             try
             {
-                #region Validation
-                if (Session["userId"]==null)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-
+                #region Validation              
                 //got wrong invalid userhero
                 //relaod the page
                 if (data.UserHeroId == null || data.UserHeroId <= 0)
@@ -116,12 +108,7 @@ namespace SuperHero.Controllers
 
             try
             {
-                #region Validation
-                if (Session["userId"] == null)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-
+                #region Validation             
                 if (data.OpponentHeroId == null || data.OpponentHeroId <= 0)
                 {
                     //mapping the model back and return the view                  
@@ -146,7 +133,7 @@ namespace SuperHero.Controllers
             {
 
                 throw;
-            }       
+            }
         }
 
         //POST: ChooseHeroView to BattleView
@@ -173,7 +160,7 @@ namespace SuperHero.Controllers
 
                 throw;
             }
-            
+
         }
     }
 }

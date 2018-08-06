@@ -12,25 +12,18 @@ namespace SuperHero
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class AspNetRoles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public AspNetRoles()
         {
-            this.FavouriteSuperHero = new HashSet<FavouriteSuperHero>();
-            this.BattleLog = new HashSet<BattleLog>();
+            this.AspNetUsers = new HashSet<AspNetUsers>();
         }
     
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string PassWord { get; set; }
-        public string Salt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FavouriteSuperHero> FavouriteSuperHero { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BattleLog> BattleLog { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
     }
 }

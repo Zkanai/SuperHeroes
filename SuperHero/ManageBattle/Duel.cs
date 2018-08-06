@@ -18,12 +18,11 @@ namespace SuperHero.ManageBattle
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Combat(Combat data, int? sessionUserId)
+        public static string Combat(Combat data, string userId)
         {
             var model = new BattleViewModel();
             Random rnd = new Random();
-            var userId = (int)sessionUserId;
-
+          
             //need for fair fights
             data.UserHeroStat /= 2;
             data.OpponentHeroStat /= 2;
@@ -84,7 +83,7 @@ namespace SuperHero.ManageBattle
         /// <param name="userHeroId"></param>
         /// <param name="opponentHeroId"></param>
         /// <param name="winnerId"></param>
-        public static void SaveBattelog(int userHeroId, int opponentHeroId, int? winnerId, int userId)
+        public static void SaveBattelog(int userHeroId, int opponentHeroId, int? winnerId, string userId)
         {
             var newLog = new BattleLog();
 
