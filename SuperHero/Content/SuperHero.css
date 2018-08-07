@@ -4,6 +4,8 @@
 
 .body-content {
     height: 100%;
+    background-image: url("../img/home2.jpg");
+    background-size: cover;
 }
 
 /*<---------THIS IS THE HEADER SECTION-------------->*/
@@ -42,9 +44,7 @@
 
 #indexHome {
     padding-top: 80px;
-    padding-bottom: 120px;
-    background-image: url("../img/home2.jpg");
-    background-size: cover;
+    padding-bottom: 120px;   
     font-family: 'Permanent Marker', cursive;
     height: 100%;
 }
