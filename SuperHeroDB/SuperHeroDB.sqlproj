@@ -70,8 +70,13 @@
   <ItemGroup>
     <Build Include="dbo\Tables\BattleLog.sql" />
     <Build Include="dbo\Tables\FavouriteSuperHero.sql" />
-    <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\UserFavouriteSuperHero.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\AspNetUserRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\AspNetUserClaims.sql" />
+    <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\__MigrationHistory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\test\User.sql" />
