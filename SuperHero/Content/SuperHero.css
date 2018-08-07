@@ -4,8 +4,7 @@
 
 .body-content {
     height: 100%;
-    background-image: url("../img/home2.jpg");
-    background-size: cover;
+    
 }
 
 /*<---------THIS IS THE HEADER SECTION-------------->*/
@@ -44,10 +43,23 @@
 
 #indexHome {
     padding-top: 80px;
-    padding-bottom: 120px;   
+    padding-bottom: 120px;
     font-family: 'Permanent Marker', cursive;
-    height: 100%;
+  
 }
+
+.fixed-bg-home {
+    position: relative;
+    min-height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+    .fixed-bg-home.bg-home {
+        background-image: url(../img/home2.jpg);
+    }
 
     #indexHome .card-text {
     font-size:18px;
@@ -273,13 +285,30 @@
 
 /*<-----------------BATTLE VIEW SECTION END------------------------>*/
 
+
+
+
+/*<-----------------SEARCH VIEW SECTION------------------------>*/
 #searchView {
     font-family: 'Permanent Marker', cursive;
     padding-top: 100px;
     padding-bottom: 100px;
-    background-image: url("../img/marvel-dc.jpg");
-    background-size: contain;
+      
 }
+
+.fixed-bg-search {
+    position: relative;
+    min-height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+    .fixed-bg-search.bg-search {
+        background-image:url(../img/marvel-dc.jpg);
+    }
+
 
     #searchView .card .btn a {
         color: white !important;
@@ -300,6 +329,9 @@
         #searchView .modal-footer .btn a:hover {
             color: red !important;
         }
+
+
+/*<-----------------SEARCH VIEW SECTION END------------------------>*/
 
 #detailedHeroView {
     font-family: 'Permanent Marker', cursive;

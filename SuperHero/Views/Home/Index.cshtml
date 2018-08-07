@@ -5,11 +5,11 @@
     Random rnd = new Random();
 }
 
-<div id="indexHome" class="row justify-content-center">
+<div id="indexHome" class="fixed-bg-home bg-home justify-content-center">
 
     @if (Request.IsAuthenticated)
     {
-
+    
         <div class="text-center pt-5">
             <h4 class="" style="font-size:40px;color:white;">YOUR FAVOURITE HEROES</h4>
         </div>
@@ -18,7 +18,7 @@
             @if (Model.Count <= 0)
             {
 
-                <div id="indexHomeNoFav" class="col-lg-3 col-xl-3 col-md-6 col-sm-10 col-10">
+                <div id="indexHomeNoFav" class="col-lg-4 col-xl-2 col-md-6 col-sm-8 col-10 pt-3">
                     <div class="card" id="indexHomeCardNoFavHeroes">
                         <div class="card-body">
                             <h4 class="card-title" style="color:red">SEARCH AND BATTLE</h4>
@@ -39,7 +39,7 @@
                 foreach (var item in Model)
                 {
 
-                    <div class="col-lg-4 col-xl-3 col-md-6 col-sm-8 col-10">
+                    <div class="col-lg-4 col-xl-2 col-md-6 col-sm-8 col-10 pt-3">
                         <div class="card">
                             <img class="card-img" alt="card image" height="300" src="@item.ImgUrl">
                             <h4 class="card-title text-center bg-dark mb-0">@item.Name</h4>
@@ -60,8 +60,9 @@
                             </div>
                         </div>
                     </div>
-
+            
                 }
+
             }
 
         </div>
@@ -110,6 +111,7 @@
             </div>
 
         </div>
+
     }
 
 

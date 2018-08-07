@@ -79,6 +79,17 @@ namespace SuperHero.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    //when user come here from searching first,
+                    //redirect to the hero details view by the hero id
+                    var heroToShowId = Session["heroToShowId"]?.ToString();
+
+                    if (heroToShowId != null)
+                    {
+                        return RedirectToAction("DetailedHero", "DetailedHeroView", new { id = heroToShowId });
+                    }
+
+                    //otherwise
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -162,6 +173,13 @@ namespace SuperHero.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    //when user come here from searching first,
+                    //redirect to the hero details view by the hero id
+                    var heroToShowId = Session["heroToShowId"]?.ToString();
+
+                    if (heroToShowId != null)
+                        return RedirectToAction("DetailedHero", "DetailedHeroView", new { id = heroToShowId });
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -392,6 +410,7 @@ namespace SuperHero.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["heroToShowId"] = null;
             return RedirectToAction("Index", "Home");
         }
 

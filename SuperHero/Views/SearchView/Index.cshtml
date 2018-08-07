@@ -7,7 +7,7 @@
 
 @if (Model.SearchResult.Count == 0)
 {
-    <div id="searchView" style="height:100%;background-size:cover;">
+    <div id="searchView" class="fixed-bg-search bg-search">
         <div class="container">
 
             @using (Html.BeginForm())
@@ -34,7 +34,7 @@
 }
 else
 {
-    <div id="searchView">
+    <div id="searchView" class="fixed-bg-search bg-search">
 
         <div class="container">
 
@@ -73,11 +73,11 @@ else
                         </div>
                         <div class="modal-footer row justify-content-center" style="border:none;">
                             <div class="col-4">
-                                <button type="button" class="btn btn-primary heroToShow">@Html.ActionLink("REGISTER", "Register", "RegisterUserView")</button>
+                                <button type="button" class="btn btn-primary heroToShow">@Html.ActionLink("REGISTER", "Register", "Account")</button>
                             </div>
                             <div class="col-3"></div>
                             <div class="col-4 justify-content-end align-content-end text-right">
-                                <button type="button" class="btn btn-primary heroToShow">@Html.ActionLink("LOGIN NOW", "Login", "LoginView")</button>
+                                <button type="button" class="btn btn-primary heroToShow">@Html.ActionLink("LOGIN NOW", "Login", "Account")</button>
                             </div>
                         </div>
                     </div>
