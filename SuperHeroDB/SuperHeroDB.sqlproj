@@ -83,6 +83,6 @@
     <None Include="SuperHeroDB.publish.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="dbo\TestDatas.sql" />
+    <None Include="dbo\TestDatas.sql" />
   </ItemGroup>
 </Project>
