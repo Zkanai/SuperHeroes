@@ -1,4 +1,6 @@
-﻿using SuperHero.Models;
+﻿using SuperHero;
+using SuperHero.Models;
+using SuperHeroDAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,14 @@ namespace SuperHeroBLL
 {
     public class DetailedHeroBLL
     {
+
+        protected AspNetUsersObj objUser;
+
+        public DetailedHeroBLL()
+        {
+            objUser = new AspNetUsersObj();
+        }
+
         /// <summary>
         /// create a new model, and
         /// set isfavourite property false for help
@@ -21,6 +31,12 @@ namespace SuperHeroBLL
             model.IsFavourite = false;
 
             return model;
+        }
+
+        public AspNetUsers GetUserById(string id)
+        {
+            var user = objUser.GetUserById(id);
+            return user;
         }
 
     }

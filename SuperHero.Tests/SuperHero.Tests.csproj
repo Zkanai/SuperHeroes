@@ -163,9 +163,9 @@
       <Project>{8ceb6b30-e999-498f-bb35-08d8784d6062}</Project>
       <Name>SuperHeroModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SuperHero\SuperHero.csproj">
+    <ProjectReference Include="..\SuperHero\SuperHeroUI.csproj">
       <Project>{43D2F8AB-0700-4C44-8FF1-B5BA1E884D59}</Project>
-      <Name>SuperHero</Name>
+      <Name>SuperHeroUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

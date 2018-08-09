@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SuperHeroDB", "SuperHeroDB\SuperHeroDB.sqlproj", "{515AE503-4E85-4DD4-958E-5D4151E198AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHero", "SuperHero\SuperHero.csproj", "{43D2F8AB-0700-4C44-8FF1-B5BA1E884D59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroUI", "SuperHero\SuperHeroUI.csproj", "{43D2F8AB-0700-4C44-8FF1-B5BA1E884D59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHero.Tests", "SuperHero.Tests\SuperHero.Tests.csproj", "{754242CA-578A-4BE1-97FA-0361534F3EBA}"
 EndProject
