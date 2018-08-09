@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHero", "SuperHero\Supe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHero.Tests", "SuperHero.Tests\SuperHero.Tests.csproj", "{754242CA-578A-4BE1-97FA-0361534F3EBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroModel", "SuperHeroModel\SuperHeroModel.csproj", "{8CEB6B30-E999-498F-BB35-08D8784D6062}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,26 +31,15 @@ Global
 		{754242CA-578A-4BE1-97FA-0361534F3EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{754242CA-578A-4BE1-97FA-0361534F3EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{754242CA-578A-4BE1-97FA-0361534F3EBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CEB6B30-E999-498F-BB35-08D8784D6062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CEB6B30-E999-498F-BB35-08D8784D6062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CEB6B30-E999-498F-BB35-08D8784D6062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CEB6B30-E999-498F-BB35-08D8784D6062}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88287146-A093-4060-8FA7-D446CEFA3E06}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.n-ware.hu/tfs/reaktorlabs
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = SuperHeroDB\\SuperHeroDB.sqlproj
-		SccProjectName1 = SuperHeroDB
-		SccLocalPath1 = SuperHeroDB
-		SccProjectUniqueName2 = SuperHero\\SuperHero.csproj
-		SccProjectName2 = SuperHero
-		SccLocalPath2 = SuperHero
-		SccProjectUniqueName3 = SuperHero.Tests\\SuperHero.Tests.csproj
-		SccProjectName3 = SuperHero.Tests
-		SccLocalPath3 = SuperHero.Tests
 	EndGlobalSection
 EndGlobal
