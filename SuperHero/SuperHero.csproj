@@ -196,7 +196,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="ManageApi\ApiCall.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -208,8 +207,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ManageApi\ApiNotFoundException.cs" />
-    <Compile Include="ManageBattle\Duel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -338,6 +335,14 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SuperHeroBLL\SuperHeroBLL.csproj">
+      <Project>{8a0fc7ac-11e5-430d-9cc9-1073d5dd8a7b}</Project>
+      <Name>SuperHeroBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperHeroDAL\SuperHeroDAL.csproj">
+      <Project>{ae16314c-6c4e-4c12-af08-e7c7b98b9443}</Project>
+      <Name>SuperHeroDAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SuperHeroModel\SuperHeroModel.csproj">
       <Project>{8ceb6b30-e999-498f-bb35-08d8784d6062}</Project>
       <Name>SuperHeroModel</Name>

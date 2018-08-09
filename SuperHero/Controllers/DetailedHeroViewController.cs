@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using SuperHero.ManageApi;
 using SuperHero.Models;
-using SuperHero.Models.ApiModels;
+using SuperHeroBLL;
+using SuperHeroBLL.Mapping;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -16,108 +17,12 @@ namespace SuperHero.Controllers
     public class DetailedHeroViewController : Controller
     {
 
-        SuperHeroDBEntities db = new SuperHeroDBEntities();
+        SuperHeroDBEntities db = new SuperHeroDBEntities(); //INNEN KELL MAJD FOLYTATNI
+        protected DetailedHeroBLL dhobj;
 
-        /// <summary>
-        /// mappging the data from our api model
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="hero"></param>
-        /// <returns></returns>
-        public DetailedHeroViewModel Mapping(DetailedHeroViewModel model, SuperHeroById.HeroById hero)
-        {
-            try
-            {
-                model.ApiId = hero.ApiId;
-                model.Name = hero.Name;
-                model.ImageUrl = hero.Image.Url;
-                model.BiographyData.Full_Name = hero.Biography.Full_Name;
-                model.BiographyData.Alignment = hero.Biography.Alignment;
-                model.BiographyData.Place_Of_Birth = hero.Biography.Place_Of_Birth;
-                model.BiographyData.Publisher = hero.Biography.Publisher;
-                model.AppearanceValues.Gender = hero.Appearance.Gender;
-                model.AppearanceValues.Race = hero.Appearance.Race;
-                model.Powerstat.Intelligence = hero.Powerstats.Intelligence;
-                model.Powerstat.Strength = hero.Powerstats.Strength;
-                model.Powerstat.Speed = hero.Powerstats.Speed;
-                model.Powerstat.Durability = hero.Powerstats.Durability;
-                model.Powerstat.Power = hero.Powerstats.Power;
-                model.Powerstat.Combat = hero.Powerstats.Combat;
-
-                return model;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-        }
-
-        /// <summary>
-        /// mapping the data from our db
-        /// or if the hero not in our db then mapping
-        /// a not available hero
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="hero"></param>
-        /// <returns></returns>
-        public DetailedHeroViewModel Mapping(DetailedHeroViewModel model, FavouriteSuperHero hero)
-        {
-            var infoWhenApiNA = "Temporarily Unavailable!";
-
-            try
-            {
-                //if the hero doesn't exist in our db yet
-                if (hero == null)
-                {
-                    model.Name = infoWhenApiNA;
-                    model.ImageUrl = "../../../img/pictureNA.jpg";
-                    model.BiographyData.Full_Name = infoWhenApiNA;
-                    model.BiographyData.Alignment = infoWhenApiNA;
-                    model.BiographyData.Place_Of_Birth = infoWhenApiNA;
-                    model.BiographyData.Publisher = infoWhenApiNA;
-                    model.AppearanceValues.Gender = infoWhenApiNA;
-                    model.AppearanceValues.Race = infoWhenApiNA;
-                    model.Powerstat.Intelligence = infoWhenApiNA;
-                    model.Powerstat.Strength = infoWhenApiNA;
-                    model.Powerstat.Speed = infoWhenApiNA;
-                    model.Powerstat.Durability = infoWhenApiNA;
-                    model.Powerstat.Power = infoWhenApiNA;
-                    model.Powerstat.Combat = infoWhenApiNA;
-
-                    return model;
-                }
-
-                //if the hero is in our db already
-                model.ApiId = hero.ApiId.ToString();
-                model.Name = hero.Name;
-                model.ImageUrl = hero.ImgUrl;
-                model.BiographyData.Full_Name = hero.RealName;
-                model.BiographyData.Alignment = infoWhenApiNA;
-                model.BiographyData.Place_Of_Birth = infoWhenApiNA;
-                model.BiographyData.Publisher = infoWhenApiNA;
-                model.AppearanceValues.Gender = infoWhenApiNA;
-                model.AppearanceValues.Race = infoWhenApiNA;
-                model.Powerstat.Intelligence = hero.Intelligence.ToString();
-                model.Powerstat.Strength = hero.Strength.ToString();
-                model.Powerstat.Speed = hero.Speed.ToString();
-                model.Powerstat.Durability = hero.Durability.ToString();
-                model.Powerstat.Power = hero.Power.ToString();
-                model.Powerstat.Combat = hero.Combat.ToString();
-
-                return model;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-        }
-
+        public DetailedHeroViewController()
+        { dhobj = new DetailedHeroBLL(); }
+    
         // GET: DetailedHeroView
         [HttpGet]
         public async Task<ActionResult> DetailedHero(string id)
@@ -136,8 +41,7 @@ namespace SuperHero.Controllers
 
                 var hero = await ApiCall.GetHeroById(heroId);
 
-                var model = new DetailedHeroViewModel();
-                model.IsFavourite = false;
+                var model = dhobj.CreateNewDetailedHeroViewModel();
 
                 var userId = User.Identity.GetUserId();
                 var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
@@ -149,7 +53,7 @@ namespace SuperHero.Controllers
                     model.IsFavourite = true;
 
                 //mapping if we get back the hero from api
-                model = Mapping(model, hero);
+                model = DetailedHeroMapping.Mapping(model, hero);
 
                 return View(model);
             }
@@ -170,7 +74,7 @@ namespace SuperHero.Controllers
                     model.IsFavourite = true;
 
                 var heroFromDb = db.FavouriteSuperHero.Where(h => h.ApiId == heroId).FirstOrDefault();
-                model = Mapping(model, heroFromDb);
+                model = DetailedHeroMapping.Mapping(model, heroFromDb);
                 return View(model);
             }
             catch (Exception)
@@ -229,7 +133,7 @@ namespace SuperHero.Controllers
 
                     //mapping back the model from api
                     model = new DetailedHeroViewModel();
-                    model = Mapping(model, hero);
+                    model = DetailedHeroMapping.Mapping(model, hero);
                     model.IsFavourite = true;
 
                     return View("DetailedHero", model);
@@ -263,7 +167,7 @@ namespace SuperHero.Controllers
 
                 //mapping back the model
 
-                model = Mapping(model, hero);
+                model = DetailedHeroMapping.Mapping(model, hero);
                 model.IsFavourite = true;
 
                 return View("DetailedHero", model);
@@ -290,7 +194,7 @@ namespace SuperHero.Controllers
 
                     //mapping back the model if we can't reach the api                       
                     var model = new DetailedHeroViewModel();
-                    model = Mapping(model, heroToSave);
+                    model = DetailedHeroMapping.Mapping(model, heroToSave);
                     model.IsFavourite = true;
 
                     return View("DetailedHero", model);
@@ -339,7 +243,7 @@ namespace SuperHero.Controllers
                 var model = new DetailedHeroViewModel();
 
                 //mapping back the model from api               
-                model = Mapping(model, hero);
+                model = DetailedHeroMapping.Mapping(model, hero);
                 model.IsFavourite = false;
 
                 return View("DetailedHero", model);
@@ -348,7 +252,7 @@ namespace SuperHero.Controllers
             {
                 var model = new DetailedHeroViewModel();
                 var heroFromDb = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
-                model = Mapping(model, heroFromDb);
+                model = DetailedHeroMapping.Mapping(model, heroFromDb);
                 model.IsFavourite = false;
                 return View("DetailedHero", model);
             }

@@ -198,9 +198,7 @@
     <Compile Include="Models\JsonFromJqueryModels\DetailHeroToLogin.cs" />
     <Compile Include="Models\JsonFromJqueryModels\OpponentHeroData.cs" />
     <Compile Include="Models\JsonFromJqueryModels\UserHeroData.cs" />
-    <Compile Include="Models\LoginViewModeltest.cs" />
     <Compile Include="Models\ManageViewModel.cs" />
-    <Compile Include="Models\RegisterUserViewModel.cs" />
     <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

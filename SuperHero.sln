@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHero.Tests", "SuperHer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroModel", "SuperHeroModel\SuperHeroModel.csproj", "{8CEB6B30-E999-498F-BB35-08D8784D6062}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroDAL", "SuperHeroDAL\SuperHeroDAL.csproj", "{AE16314C-6C4E-4C12-AF08-E7C7B98B9443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroBLL", "SuperHeroBLL\SuperHeroBLL.csproj", "{8A0FC7AC-11E5-430D-9CC9-1073D5DD8A7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{8CEB6B30-E999-498F-BB35-08D8784D6062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CEB6B30-E999-498F-BB35-08D8784D6062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CEB6B30-E999-498F-BB35-08D8784D6062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE16314C-6C4E-4C12-AF08-E7C7B98B9443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE16314C-6C4E-4C12-AF08-E7C7B98B9443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE16314C-6C4E-4C12-AF08-E7C7B98B9443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE16314C-6C4E-4C12-AF08-E7C7B98B9443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A0FC7AC-11E5-430D-9CC9-1073D5DD8A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A0FC7AC-11E5-430D-9CC9-1073D5DD8A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A0FC7AC-11E5-430D-9CC9-1073D5DD8A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A0FC7AC-11E5-430D-9CC9-1073D5DD8A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
