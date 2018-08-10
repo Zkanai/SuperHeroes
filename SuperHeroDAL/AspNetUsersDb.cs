@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace SuperHeroDAL
 {
-    public class AspNetUsersObj
+    public class AspNetUsersDb
     {
         SuperHeroDBEntities db = new SuperHeroDBEntities();
 

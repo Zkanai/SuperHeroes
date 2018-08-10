@@ -18,11 +18,13 @@ namespace SuperHero.Controllers
     {
 
         SuperHeroDBEntities db = new SuperHeroDBEntities(); //INNEN KELL MAJD FOLYTATNI
-        protected DetailedHeroBLL obj;
+        protected DetailedHeroBLL objBs;
 
         public DetailedHeroViewController()
-        { obj = new DetailedHeroBLL(); }
-    
+        {
+            objBs = new DetailedHeroBLL();
+        }
+
         // GET: DetailedHeroView
         [HttpGet]
         public async Task<ActionResult> DetailedHero(string id)
@@ -41,10 +43,10 @@ namespace SuperHero.Controllers
 
                 var hero = await ApiCall.GetHeroById(heroId);
 
-                var model = obj.CreateNewDetailedHeroViewModel();
+                var model = objBs.CreateNewDetailedHeroViewModel();
 
                 var userId = User.Identity.GetUserId();
-                var user = obj.GetUserById(userId);
+                var user = objBs.GetUserById(userId);
                 var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
 
                 //to help check if the hero is already a favourite one

@@ -12,11 +12,11 @@ namespace SuperHeroBLL
     public class DetailedHeroBLL
     {
 
-        protected AspNetUsersObj objUser;
+        private AspNetUsersDb objDb;
 
         public DetailedHeroBLL()
         {
-            objUser = new AspNetUsersObj();
+            objDb = new AspNetUsersDb();
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace SuperHeroBLL
 
         public AspNetUsers GetUserById(string id)
         {
-            var user = objUser.GetUserById(id);
+            var user = objDb.GetUserById(id);
             return user;
         }
 
