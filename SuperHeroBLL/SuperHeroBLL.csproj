@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseBLL.cs" />
     <Compile Include="DetailedHeroBLL.cs" />
     <Compile Include="ManageApi\ApiCall.cs" />
     <Compile Include="ManageApi\ApiNotFoundException.cs" />

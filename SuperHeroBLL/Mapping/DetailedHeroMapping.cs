@@ -1,4 +1,5 @@
 ﻿using SuperHero;
+using SuperHero.ManageApi;
 using SuperHero.Models;
 using SuperHero.Models.ApiModels;
 using System;
@@ -112,5 +113,31 @@ namespace SuperHeroBLL.Mapping
 
         }
 
+        /// <summary>
+        /// mapping a hero that we get from api,
+        /// to a new favourite superhero, because the hero 
+        /// insn't in our db
+        /// </summary>
+        /// <param name="hero"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static FavouriteSuperHero Mapping(SuperHeroById.HeroById hero)
+        {
+            var newFavouriteHero = new FavouriteSuperHero();
+
+            //mapping for our db from api
+            newFavouriteHero.ApiId = Convert.ToInt32(hero.ApiId);
+            newFavouriteHero.Name = hero.Name;
+            newFavouriteHero.RealName = hero.Biography.Full_Name;
+            newFavouriteHero.ImgUrl = hero.Image.Url;
+            newFavouriteHero.Intelligence = ApiCall.StatStringToInt(hero.Powerstats.Intelligence);
+            newFavouriteHero.Strength = ApiCall.StatStringToInt(hero.Powerstats.Strength);
+            newFavouriteHero.Speed = ApiCall.StatStringToInt(hero.Powerstats.Speed);
+            newFavouriteHero.Durability = ApiCall.StatStringToInt(hero.Powerstats.Durability);
+            newFavouriteHero.Power = ApiCall.StatStringToInt(hero.Powerstats.Power);
+            newFavouriteHero.Combat = ApiCall.StatStringToInt(hero.Powerstats.Combat);
+
+            return newFavouriteHero;
+        }
     }
 }
