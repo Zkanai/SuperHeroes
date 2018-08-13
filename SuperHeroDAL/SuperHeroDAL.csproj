@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspNetUsersDb.cs" />
+    <Compile Include="BaseDb.cs" />
+    <Compile Include="BattleDb.cs" />
+    <Compile Include="DetailedHeroDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

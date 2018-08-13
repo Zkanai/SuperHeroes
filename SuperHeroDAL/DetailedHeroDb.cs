@@ -8,21 +8,24 @@ using System.Data.Entity;
 
 namespace SuperHeroDAL
 {
-    public class AspNetUsersDb
+    /// <summary>
+    /// this class manage the requests from detailedHeroBLL
+    /// </summary>
+    public class DetailedHeroDb:BaseDb
     {
-        SuperHeroDBEntities db = new SuperHeroDBEntities();
 
-        public AspNetUsers GetUserById(string id)
-        {
-            var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == id).FirstOrDefault();
-            return user;
-        }
+        //public override AspNetUsers GetUserById(string id)
+        //{
+        //    var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == id).FirstOrDefault();
+        //    return user;
+        //}
 
-        public List<int> GetHeroIdList(AspNetUsers user)
-        {
-            var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
-            return userFavSuperHeroesIdList;
-        }
+        //public List<int> GetUserFavouriteHeroIdList(string userId)
+        //{
+        //    var user = GetUserById(userId);
+        //    var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
+        //    return userFavSuperHeroesIdList;
+        //}
 
         public List<int> GetFavouriteHeroIdList()
         {
@@ -36,15 +39,17 @@ namespace SuperHeroDAL
             return heroFromDb;
         }
 
-        public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, AspNetUsers user)
+        public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, string userId)
         {
+            var user = GetUserById(userId);
             var userFavouriteHero = user.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
             return userFavouriteHero;
         }
 
-        public void SaveHeroToUserFavHeroList(FavouriteSuperHero heroToSave, AspNetUsers user)
+        public void SaveHeroToUserFavHeroList(FavouriteSuperHero heroToSave, string userId)
         {
-            
+            var user = GetUserById(userId);
+
             using (DbContextTransaction tran = db.Database.BeginTransaction())
             {
                 user.FavouriteSuperHero.Add(heroToSave);
@@ -54,9 +59,10 @@ namespace SuperHeroDAL
             }
         }
 
-
-        public void SaveHeroToDb(FavouriteSuperHero newFavouriteHero, AspNetUsers user)
+        public void SaveHeroToDb(FavouriteSuperHero newFavouriteHero, string userId)
         {
+            var user = GetUserById(userId);
+
             using (DbContextTransaction tran = db.Database.BeginTransaction())
             {
                 newFavouriteHero.AspNetUsers.Add(user);
@@ -66,8 +72,9 @@ namespace SuperHeroDAL
             }
         }
 
-        public void RemoveHeroFromUserFavouriteList(AspNetUsers user, FavouriteSuperHero userFavouriteHero)
+        public void RemoveHeroFromUserFavouriteList(string userId, FavouriteSuperHero userFavouriteHero)
         {
+            var user = GetUserById(userId);
             using (DbContextTransaction tran = db.Database.BeginTransaction())
             {
                 user.FavouriteSuperHero.Remove(userFavouriteHero);

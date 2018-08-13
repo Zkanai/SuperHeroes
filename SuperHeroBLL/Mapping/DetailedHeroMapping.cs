@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace SuperHeroBLL.Mapping
 {
+    /// <summary>
+    /// manage mapping for DetailedHeroViewModel
+    /// </summary>
    public static class DetailedHeroMapping
     {
 

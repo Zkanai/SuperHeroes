@@ -9,21 +9,30 @@ using System.Threading.Tasks;
 
 namespace SuperHeroBLL
 {
+    /// <summary>
+    /// this class manage the requests from DetailedHeroViewController
+    /// </summary>
     public class DetailedHeroBLL
     {
 
-        private AspNetUsersDb objDb;
+        private DetailedHeroDb objDb;
 
         public DetailedHeroBLL()
         {
-            objDb = new AspNetUsersDb();
+            objDb = new DetailedHeroDb();
         }
 
-        public AspNetUsers GetUserById(string id)
-        {
-            var user = objDb.GetUserById(id);
-            return user;
-        }
+        ///// <summary>
+        ///// gets the user from the db
+        ///// based on her id
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public AspNetUsers GetUserById(string id)
+        //{
+        //    var user = objDb.GetUserById(id);
+        //    return user;
+        //}
 
         /// <summary>
         /// get'S back a given user favourite superheroes
@@ -31,9 +40,9 @@ namespace SuperHeroBLL
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public List<int> GetHeroIdList(AspNetUsers user)
+        public List<int> GetUserFavouriteHeroIdList(string userId)
         {
-            return objDb.GetHeroIdList(user);
+            return objDb.GetUserFavouriteHeroIdList(userId);
         }
 
         /// <summary>
@@ -64,9 +73,9 @@ namespace SuperHeroBLL
         /// <param name="apiId"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, AspNetUsers user)
+        public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, string userId)
         {
-            return objDb.GetUserFavouriteHeroById(apiId, user);
+            return objDb.GetUserFavouriteHeroById(apiId, userId);
         }
 
         /// <summary>
@@ -74,9 +83,9 @@ namespace SuperHeroBLL
         /// </summary>
         /// <param name="apiId"></param>
         /// <param name="user"></param>
-        public void SaveHeroToUserFavHeroList(FavouriteSuperHero heroToSave, AspNetUsers user)
+        public void SaveHeroToUserFavHeroList(FavouriteSuperHero heroToSave, string userId)
         {
-            objDb.SaveHeroToUserFavHeroList(heroToSave, user);
+            objDb.SaveHeroToUserFavHeroList(heroToSave, userId);
         }
 
         /// <summary>
@@ -86,9 +95,9 @@ namespace SuperHeroBLL
         /// </summary>
         /// <param name="newFavouriteHero"></param>
         /// <param name="user"></param>
-        public void SaveHeroToDb(FavouriteSuperHero newFavouriteHero, AspNetUsers user)
+        public void SaveHeroToDb(FavouriteSuperHero newFavouriteHero, string userId)
         {
-            objDb.SaveHeroToDb(newFavouriteHero, user);
+            objDb.SaveHeroToDb(newFavouriteHero, userId);
         }
 
         /// <summary>
@@ -97,9 +106,9 @@ namespace SuperHeroBLL
         /// </summary>
         /// <param name="user"></param>
         /// <param name="userFavouriteHero"></param>
-        public void RemoveHeroFromUserFavouriteList(AspNetUsers user, FavouriteSuperHero userFavouriteHero)
+        public void RemoveHeroFromUserFavouriteList(string userId, FavouriteSuperHero userFavouriteHero)
         {
-            objDb.RemoveHeroFromUserFavouriteList(user, userFavouriteHero);
+            objDb.RemoveHeroFromUserFavouriteList(userId, userFavouriteHero);
         }
     }
 }

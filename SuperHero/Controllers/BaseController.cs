@@ -10,11 +10,11 @@ namespace SuperHero.Controllers
     public class BaseController : Controller
     {
 
-        protected BaseBLL objBs;
+        protected BusinessLogicContainer objBs;
 
         public BaseController()
         {
-            objBs = new BaseBLL();
+            objBs = new BusinessLogicContainer();
         }
 
         

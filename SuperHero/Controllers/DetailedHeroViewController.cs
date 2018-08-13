@@ -23,8 +23,7 @@ namespace SuperHero.Controllers
         {
             var heroId = 0;
             var userId = User.Identity.GetUserId();
-            var user = objBs.detailedHeroBLL.GetUserById(userId);
-
+            
             try
             {
                 #region Validation
@@ -38,7 +37,7 @@ namespace SuperHero.Controllers
                 var hero = await ApiCall.GetHeroById(heroId);
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
-                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetHeroIdList(user);
+                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetUserFavouriteHeroIdList(userId);
 
                 //to help check if the hero is already a favourite one
                 //that the user actually viewing                          
@@ -59,7 +58,7 @@ namespace SuperHero.Controllers
 
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
-                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetHeroIdList(user);
+                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetUserFavouriteHeroIdList(userId);
 
                 //to help check if the hero is already a favourite one
                 //that the user actually viewing                          
@@ -84,8 +83,7 @@ namespace SuperHero.Controllers
         {
             var apiId = 0;
             var userId = User.Identity.GetUserId();
-            var user = objBs.detailedHeroBLL.GetUserById(userId);
-
+            
             try
             {
 
@@ -97,7 +95,7 @@ namespace SuperHero.Controllers
                 if (!int.TryParse(id, out apiId))
                     return RedirectToAction("Index", "Home");
               
-                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetHeroIdList(user);
+                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetUserFavouriteHeroIdList(userId);
 
                 //if this hero already in the user favourites
                 if (userFavSuperHeroesIdList.Contains(apiId))
@@ -115,7 +113,7 @@ namespace SuperHero.Controllers
                 if (favHeroIdList.Contains(apiId))
                 {
                     var heroToSave = objBs.detailedHeroBLL.GetFavouriteHeroById(apiId);
-                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(heroToSave, user);
+                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(heroToSave, userId);
 
                     //mapping back the model from api
                     model = new DetailedHeroViewModel();
@@ -129,7 +127,7 @@ namespace SuperHero.Controllers
                 //then we create a new one, add to the user
                 //and save to the db
                 var newFavouriteHero = DetailedHeroMapping.Mapping(hero);
-                objBs.detailedHeroBLL.SaveHeroToDb(newFavouriteHero, user);
+                objBs.detailedHeroBLL.SaveHeroToDb(newFavouriteHero, userId);
 
                 //mapping back the model
                 model = DetailedHeroMapping.Mapping(model, hero);
@@ -147,7 +145,7 @@ namespace SuperHero.Controllers
                 {
 
                     var heroToSave = objBs.detailedHeroBLL.GetFavouriteHeroById(apiId);
-                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(heroToSave, user);
+                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(heroToSave, userId);
 
                     //mapping back the model if we can't reach the api                       
                     var model = new DetailedHeroViewModel();
@@ -171,8 +169,7 @@ namespace SuperHero.Controllers
         {
             var apiId = 0;
             var userId = User.Identity.GetUserId();
-            var user = objBs.detailedHeroBLL.GetUserById(userId);
-
+           
             try
             {
 
@@ -185,10 +182,10 @@ namespace SuperHero.Controllers
 
                 #endregion
 
-                var userFavouriteHero = objBs.detailedHeroBLL.GetUserFavouriteHeroById(apiId, user);
+                var userFavouriteHero = objBs.detailedHeroBLL.GetUserFavouriteHeroById(apiId, userId);
 
                 //delete record from db
-                objBs.detailedHeroBLL.RemoveHeroFromUserFavouriteList(user, userFavouriteHero);
+                objBs.detailedHeroBLL.RemoveHeroFromUserFavouriteList(userId, userFavouriteHero);
 
                 var hero = await ApiCall.GetHeroById(apiId);
                 var model = new DetailedHeroViewModel();

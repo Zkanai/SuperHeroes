@@ -8,21 +8,30 @@ using System.Threading.Tasks;
 
 namespace SuperHeroBLL
 {
-    public class BaseBLL
+    /// <summary>
+    /// contains as properties all of
+    /// the business logic layer classes
+    /// </summary>
+    public class BusinessLogicContainer
     {
 
         public DetailedHeroBLL detailedHeroBLL;
 
+        public BattleBLL battleBLL;
+
+       
         /// <summary>
         /// gives back a user from db based on
         /// her id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public BaseBLL()
+        public BusinessLogicContainer()
         {
-            detailedHeroBLL = new DetailedHeroBLL();         
+            detailedHeroBLL = new DetailedHeroBLL();
+            battleBLL = new BattleBLL();
+            
         }
-    
+      
     }
 }

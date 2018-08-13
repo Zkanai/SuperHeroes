@@ -29,7 +29,7 @@ namespace SuperHero.Controllers
                         return View(model);
                     }
 
-                    var favSuperHero = user.FavouriteSuperHero;
+                    var favSuperHero = user.FavouriteSuperHero.ToList();
                     
                     //mapping
                     model = favSuperHero.Select(hero => new FavouriteSuperHeroViewModel()
