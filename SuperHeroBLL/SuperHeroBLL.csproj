@@ -56,7 +56,6 @@
     <Compile Include="DetailedHeroBLL.cs" />
     <Compile Include="ManageApi\ApiCall.cs" />
     <Compile Include="ManageApi\ApiNotFoundException.cs" />
-    <Compile Include="ManageBattle\Duel.cs" />
     <Compile Include="Mapping\BattleMapping.cs" />
     <Compile Include="Mapping\DetailedHeroMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

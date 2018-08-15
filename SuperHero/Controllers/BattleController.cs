@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using SuperHero.Models.JsonFromJqueryModels;
 using SuperHero.Models.ApiModels;
 using SuperHero.ManageApi;
-using SuperHero.ManageBattle;
-using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using SuperHeroBLL.Mapping;
 
@@ -17,76 +15,78 @@ namespace SuperHero.Controllers
     [Authorize]
     public class BattleController : BaseController  
     {
-
-        SuperHeroDBEntities db = new SuperHeroDBEntities(); //ITT TARTUNK!!!!
-        
+              
         //GET: BATTLE WITH FAVOURITE
         [HttpGet]
         public ActionResult Battle(int? leftHeroApiId, int? rightHeroApiId)
         {
-
-            #region Validation
-            //if not logged in or get nulls for heroes
-            if (rightHeroApiId == null || leftHeroApiId == null)           
-                return RedirectToAction("Index", "Home");
-           
-
-            var userId = User.Identity.GetUserId();           
-            var userHeroApiId = (int)leftHeroApiId;
-            var opponentHeroApiId = (int)rightHeroApiId;
-            var model = new BattleViewModel();
-
-            var userFavHeroApiIdList = objBs.battleBLL.GetUserFavouriteHeroIdList(userId);
-
-            //if something went wrong
-            if (!userFavHeroApiIdList.Contains(userHeroApiId) || !userFavHeroApiIdList.Contains(opponentHeroApiId))
+            try
             {
-                return RedirectToAction("ChooseHero", "ChooseHeroView");
-            }
-            #endregion
-       
-            model.UserHero = objBs.battleBLL.GetUserHero(userId, userHeroApiId);            
-            model.OpponentHero = objBs.battleBLL.GetUserHero(userId, userHeroApiId);
+                #region Validation
+                //if not logged in or get nulls for heroes
+                if (rightHeroApiId == null || leftHeroApiId == null)
+                    return RedirectToAction("Index", "Home");
 
-            return View(model);
+                var userId = User.Identity.GetUserId();
+                var userHeroApiId = (int)leftHeroApiId;
+                var opponentHeroApiId = (int)rightHeroApiId;
+                var model = new BattleViewModel();
+
+                //if something went wrong
+                var userFavHeroApiIdList = objBs.battleBLL.GetUserFavouriteHeroIdList(userId);               
+                if (!userFavHeroApiIdList.Contains(userHeroApiId) || !userFavHeroApiIdList.Contains(opponentHeroApiId))
+                {
+                    return RedirectToAction("ChooseHero", "ChooseHeroView");
+                }
+                #endregion
+
+                model.UserHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, userHeroApiId);
+                model.OpponentHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, opponentHeroApiId);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         //GET: BATTLE WITH RANDOM OPPONENT
         [HttpGet]
         public async Task<ActionResult> BattleRandom(int? leftHeroApiId, int? rightHeroApiId)
         {
+                                     
             try
             {
                 #region Validation
                 //if get nulls for heroes
-                if (rightHeroApiId == null || leftHeroApiId == null)               
+                if (rightHeroApiId == null || leftHeroApiId == null)
                     return RedirectToAction("Index", "Home");
-                
 
                 var userId = User.Identity.GetUserId();
                 var userHeroApiId = (int)leftHeroApiId;
                 var opponentHeroApiId = (int)rightHeroApiId;
                 var model = new BattleViewModel();
-                var user = db.AspNetUsers.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
-
-                var userHeroApiIdList = user.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
-                var apiIdList = db.FavouriteSuperHero.Select(hero => hero.ApiId).ToList();
 
                 //if something went wrong
+                var userHeroApiIdList = objBs.battleBLL.GetUserFavouriteHeroIdList(userId);
                 if (!userHeroApiIdList.Contains(userHeroApiId))
                 {
                     return RedirectToAction("ChooseHero", "ChooseHeroView");
                 }
                 #endregion
 
-                var userHero = user.FavouriteSuperHero.Where(hero => hero.ApiId == userHeroApiId).FirstOrDefault();
+                var apiIdList = objBs.battleBLL.GetFavouriteHeroIdList();
+                var userHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, userHeroApiId);
                 model.UserHero = userHero;
 
                 //the opponent hero is in our db, so don't need to call the API
                 //just get the hero from the db
                 if (apiIdList.Contains(opponentHeroApiId))
                 {
-                    var opponentHero = db.FavouriteSuperHero.Where(hero => hero.ApiId == opponentHeroApiId).FirstOrDefault();
+                    var opponentHero = objBs.battleBLL.GetFavouriteHeroById(opponentHeroApiId);
                     model.OpponentHero = opponentHero;
 
                     return View("Battle", model);
@@ -101,12 +101,11 @@ namespace SuperHero.Controllers
             }
             catch (ApiNotFoundException)
             {
-                //mapping userHero
+                //mapping user's hero
                 var userId = User.Identity.GetUserId();
                 var userHeroApiId = (int)leftHeroApiId;
-                var user = db.AspNetUsers.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
                 var model = new BattleViewModel();
-                var userHero = user.FavouriteSuperHero.Where(hero => hero.ApiId == userHeroApiId).FirstOrDefault();
+                var userHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, userHeroApiId);
                 model.UserHero = userHero;
                
                 //mapping enemy hero
@@ -127,10 +126,18 @@ namespace SuperHero.Controllers
         [HttpPost]
         public JsonResult Battle(Combat data)
         {
+            try
+            {
+                var userId = User.Identity.GetUserId();
 
-            var userId = User.Identity.GetUserId();
+                return Json(objBs.battleBLL.Duel(data, userId));
+            }
+            catch (Exception)
+            {
 
-            return Json(Duel.Combat(data, User.Identity.GetUserId()));
+                throw;
+            }
+           
         }
 
 

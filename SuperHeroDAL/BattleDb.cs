@@ -11,19 +11,40 @@ namespace SuperHeroDAL
     public class BattleDb:BaseDb
     {
 
-
-        //public List<int> GetUserFavouriteHeroIdList(string userId)
-        //{
-        //    var user = GetUserById(userId);
-        //    var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
-        //    return userFavSuperHeroesIdList;
-        //}
-
-        public FavouriteSuperHero GetUserHero(string userId, int heroId)
+        /// <summary>
+        /// save the battle result to the db
+        /// </summary>
+        /// <param name="userHeroId"></param>
+        /// <param name="opponentHeroId"></param>
+        /// <param name="winnerId"></param>
+        public void SaveDuelBattelog(int userHeroId, int opponentHeroId, int? winnerId, string userId)
         {
-            var user = GetUserById(userId);
-            var userHero = user.FavouriteSuperHero.Where(hero => hero.ApiId == heroId).FirstOrDefault();
-            return userHero;
+            var newLog = new BattleLog();
+
+            try
+            {
+                //mapping
+                newLog.UserHeroId = userHeroId;
+                newLog.OpponentHeroId = opponentHeroId;
+                newLog.WinnerHeroId = winnerId;
+                newLog.UserId = userId;
+               
+                //insert record to the db
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    db.BattleLog.Add(newLog);
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
         }
+
     }
 }

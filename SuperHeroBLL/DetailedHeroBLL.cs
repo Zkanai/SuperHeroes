@@ -22,18 +22,6 @@ namespace SuperHeroBLL
             objDb = new DetailedHeroDb();
         }
 
-        ///// <summary>
-        ///// gets the user from the db
-        ///// based on her id
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public AspNetUsers GetUserById(string id)
-        //{
-        //    var user = objDb.GetUserById(id);
-        //    return user;
-        //}
-
         /// <summary>
         /// get'S back a given user favourite superheroes
         /// id list

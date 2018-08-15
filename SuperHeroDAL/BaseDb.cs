@@ -29,11 +29,30 @@ namespace SuperHeroDAL
             return user;
         }
 
+        public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, string userId)
+        {
+            var user = GetUserById(userId);
+            var userFavouriteHero = user.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
+            return userFavouriteHero;
+        }
+
         public List<int> GetUserFavouriteHeroIdList(string userId)
         {
             var user = GetUserById(userId);
             var userFavSuperHeroesIdList = user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
             return userFavSuperHeroesIdList;
+        }
+
+        public List<int> GetFavouriteHeroIdList()
+        {
+            var favHeroIdList = db.FavouriteSuperHero.Select(h => h.ApiId).ToList();
+            return favHeroIdList;
+        }
+
+        public FavouriteSuperHero GetFavouriteHeroById(int heroId)
+        {
+            var heroFromDb = db.FavouriteSuperHero.Where(h => h.ApiId == heroId).FirstOrDefault();
+            return heroFromDb;
         }
     }
 }

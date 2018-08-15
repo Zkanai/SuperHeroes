@@ -18,8 +18,7 @@ namespace SuperHeroBLL
         public DetailedHeroBLL detailedHeroBLL;
 
         public BattleBLL battleBLL;
-
-       
+      
         /// <summary>
         /// gives back a user from db based on
         /// her id
