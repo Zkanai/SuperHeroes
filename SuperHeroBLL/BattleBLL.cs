@@ -1,7 +1,4 @@
-﻿using SuperHero;
-using SuperHero.Models;
-using SuperHero.Models.JsonFromJqueryModels;
-using SuperHeroDAL;
+﻿using SuperHero.Models.JsonFromJqueryModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,75 +8,19 @@ using System.Threading.Tasks;
 namespace SuperHeroBLL
 {
     /// <summary>
-    /// this class manage the requests from
-    /// battle controller
+    /// manage the requests from
+    /// battle controller, manage the battles
     /// </summary>
-    public class BattleBLL
+    public class BattleBLL:BaseBLL
     {
-
-        private BattleDb objDb;
+    
+        private BattleLogBLL objBs;
 
         public BattleBLL()
         {
-            objDb = new BattleDb();
-        }
-
-        /// <summary>
-        /// returns all favourite hero id from the
-        /// db in a int list
-        /// </summary>
-        /// <returns></returns>
-        public List<int> GetFavouriteHeroIdList()
-        {
-            return objDb.GetFavouriteHeroIdList();
-        }
-
-        /// <summary>
-        /// get back an id list of a given
-        /// user's favourite superheroes
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public List<int> GetUserFavouriteHeroIdList(string userId)
-        {
-            return objDb.GetUserFavouriteHeroIdList(userId);
-        }
-
-        /// <summary>
-        /// get's back the given user's favourite superhero based
-        /// on its id
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="userHeroApiId"></param>
-        /// <returns></returns>
-        public FavouriteSuperHero GetUserFavouriteHeroById(string userId, int heroApiId)
-        {
-            return objDb.GetUserFavouriteHeroById(heroApiId, userId);
-        }
-
-        /// <summary>
-        /// get's back the given user's favourite superhero,
-        /// based on the hero id
-        /// </summary>
-        /// <param name="apiId"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, string userId)
-        {
-            return objDb.GetUserFavouriteHeroById(apiId, userId);
-        }
-
-        /// <summary>
-        /// get's back a favourite hero
-        /// based on the hero id
-        /// </summary>
-        /// <param name="heroId"></param>
-        /// <returns></returns>
-        public FavouriteSuperHero GetFavouriteHeroById(int heroId)
-        {
-            return objDb.GetFavouriteHeroById(heroId);
-        }
-
+            objBs = new BattleLogBLL();          
+        }      
+            
         /// <summary>
         /// manage the battle,
         /// save the result of the battle to db,
@@ -123,17 +64,17 @@ namespace SuperHeroBLL
                 //manage the result, write out to the user, and save the battle into db
                 if (data.UserHeroStat > data.OpponentHeroStat)
                 {
-                   objDb.SaveDuelBattelog(data.LeftHeroId, data.RightHeroId, data.LeftHeroId, userId);
+                   objBs.SaveDuelBattelog(data.LeftHeroId, data.RightHeroId, data.LeftHeroId, userId);
                     return $"The winner is {data.UserHeroName}!!!";
                 }
                 else if (data.UserHeroStat < data.OpponentHeroStat)
                 {
-                    objDb.SaveDuelBattelog(data.LeftHeroId, data.RightHeroId, data.RightHeroId, userId);
+                    objBs.SaveDuelBattelog(data.LeftHeroId, data.RightHeroId, data.RightHeroId, userId);
                     return $"The winner is {data.OpponentHeroName}!!!";
                 }
                 else
                 {
-                    objDb.SaveDuelBattelog(data.LeftHeroId, data.RightHeroId, null, userId);
+                    objBs.SaveDuelBattelog(data.LeftHeroId, data.RightHeroId, null, userId);
                     return "The fight ends with a draw!!!";
                 }
             }
@@ -145,5 +86,6 @@ namespace SuperHeroBLL
 
 
         }
+
     }
 }

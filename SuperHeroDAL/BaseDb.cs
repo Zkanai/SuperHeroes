@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace SuperHeroDAL
 {
-    public abstract class BaseDb
+    public class BaseDb
     {
         protected SuperHeroDBEntities db;
 
@@ -54,5 +54,8 @@ namespace SuperHeroDAL
             var heroFromDb = db.FavouriteSuperHero.Where(h => h.ApiId == heroId).FirstOrDefault();
             return heroFromDb;
         }
+
+
+
     }
 }

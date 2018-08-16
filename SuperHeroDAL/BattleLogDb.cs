@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 
 namespace SuperHeroDAL
 {
-    public class BattleDb:BaseDb
+    /// <summary>
+    /// manage CRUD for BattleLog table from db
+    /// </summary>
+    public class BattleLogDb:BaseDb
     {
 
         /// <summary>
@@ -28,7 +30,7 @@ namespace SuperHeroDAL
                 newLog.OpponentHeroId = opponentHeroId;
                 newLog.WinnerHeroId = winnerId;
                 newLog.UserId = userId;
-               
+
                 //insert record to the db
                 using (var transaction = db.Database.BeginTransaction())
                 {
@@ -42,8 +44,6 @@ namespace SuperHeroDAL
 
                 throw;
             }
-
-
         }
 
     }

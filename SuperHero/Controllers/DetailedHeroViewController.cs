@@ -38,6 +38,7 @@ namespace SuperHero.Controllers
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
                 var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetUserFavouriteHeroIdList(userId);
+                
 
                 //to help check if the hero is already a favourite one
                 //that the user actually viewing                          
@@ -112,8 +113,8 @@ namespace SuperHero.Controllers
                 var favHeroIdList = objBs.detailedHeroBLL.GetFavouriteHeroIdList();
                 if (favHeroIdList.Contains(apiId))
                 {
-                    var heroToSave = objBs.detailedHeroBLL.GetFavouriteHeroById(apiId);
-                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(heroToSave, userId);
+                   
+                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(apiId, userId);
 
                     //mapping back the model from api
                     model = new DetailedHeroViewModel();
@@ -145,7 +146,7 @@ namespace SuperHero.Controllers
                 {
 
                     var heroToSave = objBs.detailedHeroBLL.GetFavouriteHeroById(apiId);
-                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(heroToSave, userId);
+                    objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(apiId, userId);
 
                     //mapping back the model if we can't reach the api                       
                     var model = new DetailedHeroViewModel();
@@ -181,11 +182,9 @@ namespace SuperHero.Controllers
                     return RedirectToAction("Index", "Home");
 
                 #endregion
-
-                var userFavouriteHero = objBs.detailedHeroBLL.GetUserFavouriteHeroById(apiId, userId);
-
+              
                 //delete record from db
-                objBs.detailedHeroBLL.RemoveHeroFromUserFavouriteList(userId, userFavouriteHero);
+                objBs.detailedHeroBLL.RemoveHeroFromUserFavouriteList(userId, apiId); //KI KELL E TÖRÖLNI A BATTLELOG TÁBLÁBÓL IS???
 
                 var hero = await ApiCall.GetHeroById(apiId);
                 var model = new DetailedHeroViewModel();

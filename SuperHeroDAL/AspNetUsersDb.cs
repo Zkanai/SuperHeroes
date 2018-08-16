@@ -1,22 +1,21 @@
-﻿using SuperHero;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 
 namespace SuperHeroDAL
 {
     /// <summary>
-    /// this class manage the requests from detailedHeroBLL
+    /// manage CRUD for BattleLog table from db
     /// </summary>
-    public class DetailedHeroDb:BaseDb
+    public class AspNetUsersDb:BaseDb
     {
-             
-        public void SaveHeroToUserFavHeroList(FavouriteSuperHero heroToSave, string userId)
+        public void SaveHeroToUserFavHeroList(int apiId, string userId)
         {
             var user = GetUserById(userId);
+            var heroToSave = GetFavouriteHeroById(apiId);
 
             using (DbContextTransaction tran = db.Database.BeginTransaction())
             {
@@ -25,24 +24,14 @@ namespace SuperHeroDAL
                 db.SaveChanges();
                 tran.Commit();
             }
+
         }
 
-        public void SaveHeroToDb(FavouriteSuperHero newFavouriteHero, string userId)
+        public void RemoveHeroFromUserFavouriteList(string userId, int heroId)
         {
             var user = GetUserById(userId);
+            var userFavouriteHero = GetFavouriteHeroById(heroId);
 
-            using (DbContextTransaction tran = db.Database.BeginTransaction())
-            {
-                newFavouriteHero.AspNetUsers.Add(user);
-                db.FavouriteSuperHero.Add(newFavouriteHero);
-                db.SaveChanges();
-                tran.Commit();
-            }
-        }
-
-        public void RemoveHeroFromUserFavouriteList(string userId, FavouriteSuperHero userFavouriteHero)
-        {
-            var user = GetUserById(userId);
             using (DbContextTransaction tran = db.Database.BeginTransaction())
             {
                 user.FavouriteSuperHero.Remove(userFavouriteHero);
@@ -51,6 +40,5 @@ namespace SuperHeroDAL
                 tran.Commit();
             }
         }
-
     }
 }
