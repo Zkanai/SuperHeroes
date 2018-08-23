@@ -16,19 +16,14 @@ namespace SuperHeroBLL
     {
 
         public DetailedHeroBLL detailedHeroBLL;
-
         public BattleBLL battleBLL;
-      
-        /// <summary>
-        /// gives back a user from db based on
-        /// her id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        public ChooseHeroBLL chooseHeroBLL;
+            
         public BusinessLogicContainer()
         {
             detailedHeroBLL = new DetailedHeroBLL();
             battleBLL = new BattleBLL();
+            chooseHeroBLL = new ChooseHeroBLL();
             
         }
       

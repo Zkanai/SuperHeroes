@@ -1,5 +1,7 @@
 ﻿using SuperHero;
 using SuperHero.Models;
+using SuperHero.Models.ApiModels;
+using SuperHeroBLL.Mapping;
 using SuperHeroDAL;
 using System;
 using System.Collections.Generic;
@@ -12,16 +14,15 @@ namespace SuperHeroBLL
     /// <summary>
     /// manage the requests from DetailedHeroViewController
     /// </summary>
-    public class DetailedHeroBLL:BaseBLL
+    public class DetailedHeroBLL:SharedBLL
     {
-      
-        private FavouriteSuperHeroDb favHeroObjDb;
-        private AspNetUsersDb userObjDb;
+        private AspNetUsersDb aspNetUsersDb;
+        private FavouriteSuperHeroDb favouriteSuperHeroDb;
 
         public DetailedHeroBLL()
         {
-            favHeroObjDb = new FavouriteSuperHeroDb();
-            userObjDb = new AspNetUsersDb();
+            aspNetUsersDb = new AspNetUsersDb();
+            favouriteSuperHeroDb = new FavouriteSuperHeroDb();          
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace SuperHeroBLL
         /// <param name="user"></param>
         public void SaveHeroToUserFavHeroList(int apiId, string userId)
         {
-            userObjDb.SaveHeroToUserFavHeroList(apiId, userId);
+            aspNetUsersDb.SaveHeroToUserFavHeroList(apiId, userId);
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace SuperHeroBLL
         /// <param name="user"></param>
         public void SaveHeroToDb(FavouriteSuperHero newFavouriteHero, string userId)
         {
-            favHeroObjDb.SaveHeroToDb(newFavouriteHero, userId);
+            favouriteSuperHeroDb.SaveHeroToDb(newFavouriteHero, userId);
         }
 
         /// <summary>
@@ -54,7 +55,44 @@ namespace SuperHeroBLL
         /// <param name="userFavouriteHero"></param>
         public void RemoveHeroFromUserFavouriteList(string userId, int heroId)
         {
-            userObjDb.RemoveHeroFromUserFavouriteList(userId, heroId);
+            aspNetUsersDb.RemoveHeroFromUserFavouriteList(userId, heroId);
+        }
+
+        /// <summary>
+        /// mappging the data from our api model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="hero"></param>
+        /// <returns></returns>
+        public DetailedHeroViewModel MappingFromApi(DetailedHeroViewModel model, SuperHeroById.HeroById hero)
+        {
+            return DetailedHeroMapping.MappingFromApi(model, hero);
+        }
+
+        /// <summary>
+        /// mapping the data from our db
+        /// or if the hero not in our db then mapping
+        /// a not available hero
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="hero"></param>
+        /// <returns></returns>
+        public DetailedHeroViewModel MappingWhenApiNA(DetailedHeroViewModel model, FavouriteSuperHero hero)
+        {
+            return DetailedHeroMapping.MappingWhenApiNA(model, hero);
+        }
+
+        /// <summary>
+        /// mapping a hero that we get from api,
+        /// to a new favourite superhero, because the hero 
+        /// insn't in our db
+        /// </summary>
+        /// <param name="hero"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public FavouriteSuperHero MappingNewFavouriteHero(SuperHeroById.HeroById hero)
+        {
+            return DetailedHeroMapping.MappingNewFavouriteHero(hero);
         }
     }
 }

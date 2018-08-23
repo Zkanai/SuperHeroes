@@ -10,7 +10,7 @@ namespace SuperHeroDAL
     /// <summary>
     /// manage CRUD for BattleLog table from db
     /// </summary>
-    public class BattleLogDb:BaseDb
+    public class BattleLogDb
     {
 
         /// <summary>
@@ -32,11 +32,14 @@ namespace SuperHeroDAL
                 newLog.UserId = userId;
 
                 //insert record to the db
-                using (var transaction = db.Database.BeginTransaction())
+                using (SuperHeroDBEntities db = new SuperHeroDBEntities())
                 {
-                    db.BattleLog.Add(newLog);
-                    db.SaveChanges();
-                    transaction.Commit();
+                    using (var transaction = db.Database.BeginTransaction())
+                    {
+                        db.BattleLog.Add(newLog);
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
                 }
             }
             catch (Exception)

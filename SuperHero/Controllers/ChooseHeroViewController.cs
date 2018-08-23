@@ -8,44 +8,22 @@ using SuperHero.Models.JsonFromJqueryModels;
 namespace SuperHero.Controllers
 {
     [Authorize]
-    public class ChooseHeroViewController : Controller
+    public class ChooseHeroViewController : BaseController
     {
-        SuperHeroDBEntities db = new SuperHeroDBEntities();
-
-        /// <summary>
-        /// mapping back the view model,
-        /// when something goes wrong
-        /// </summary>
-        /// <returns></returns>
-        public ChooseHeroesViewModel Mapping()
-        {
-            //mapping back
-            var model = new ChooseHeroesViewModel();
-            var userId = User.Identity.GetUserId();
-            var favSuperHeroList = db.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
-
-            ViewBag.HeroList = favSuperHeroList;
-            model.UserHeroList = favSuperHeroList;
-            model.OpponentHeroList = favSuperHeroList;
-
-            return model;
-        }
-
+         
         // GET: ChooseHeroView
         public ActionResult ChooseHero()
         {
 
             var model = new ChooseHeroesViewModel();
+            var userId = User.Identity.GetUserId();
 
             try
             {
-                var userId = User.Identity.GetUserId();
-                var favSuperHeroList = db.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault().FavouriteSuperHero.ToList();
-
-                ViewBag.HeroList = favSuperHeroList;
-                model.UserHeroList = favSuperHeroList;
-                model.OpponentHeroList = favSuperHeroList;
-
+                
+                model = objBs.chooseHeroBLL.Mapping(userId);
+                ViewBag.HeroList = objBs.chooseHeroBLL.GetUserFavouriteSuperHeroList(userId);
+              
                 return View();
             }
             catch (Exception)
@@ -60,7 +38,8 @@ namespace SuperHero.Controllers
         [HttpPost]
         public ActionResult ChosenUserHero(UserHeroData data)
         {
-            var chosenUserHero = new UserHeroData();
+            
+            var userId = User.Identity.GetUserId();
 
             try
             {
@@ -70,28 +49,14 @@ namespace SuperHero.Controllers
                 if (data.UserHeroId == null || data.UserHeroId <= 0)
                 {
                     //mapping the model back and return the view
-                    return View(nameof(ChooseHero), Mapping());
+                    ViewBag.HeroList = objBs.chooseHeroBLL.GetUserFavouriteSuperHeroList(userId);
+                    return View(nameof(ChooseHero), objBs.chooseHeroBLL.Mapping(userId));
                 }
                 #endregion
 
-                var userHero = db.FavouriteSuperHero.Where(hero => hero.ApiId == data.UserHeroId).FirstOrDefault();
-
-                //mapping
-                if (userHero != null)
-                {
-                    chosenUserHero.UserHeroId = data.UserHeroId;
-                    chosenUserHero.UserHeroName = userHero.Name;
-                    chosenUserHero.UserHeroRealName = userHero.RealName;
-                    chosenUserHero.UserHeroIntelligence = userHero.Intelligence;
-                    chosenUserHero.UserHeroStrength = userHero.Strength;
-                    chosenUserHero.UserHeroSpeed = userHero.Speed;
-                    chosenUserHero.UserHeroDurability = userHero.Durability;
-                    chosenUserHero.UserHeroPower = userHero.Power;
-                    chosenUserHero.UserHeroCombat = userHero.Combat;
-                    chosenUserHero.UserHeroImgUrl = userHero.ImgUrl;
-                }
-
-                return Json(chosenUserHero, JsonRequestBehavior.AllowGet);
+                var heroId = (int)data.UserHeroId; 
+                
+                return Json(objBs.chooseHeroBLL.MapUserHero(heroId), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -104,30 +69,23 @@ namespace SuperHero.Controllers
         [HttpPost]
         public ActionResult ChosenOpponentHero(OpponentHeroData data)
         {
-            var chosenOpponentHero = new OpponentHeroData();
+            
+            var userId = User.Identity.GetUserId();
 
             try
             {
                 #region Validation             
                 if (data.OpponentHeroId == null || data.OpponentHeroId <= 0)
                 {
-                    //mapping the model back and return the view                  
-                    return View(nameof(ChooseHero), Mapping());
+                    //mapping the model back and return the view  
+                    ViewBag.HeroList = objBs.chooseHeroBLL.GetUserFavouriteSuperHeroList(userId);
+                    return View(nameof(ChooseHero), objBs.chooseHeroBLL.Mapping(userId));
                 }
                 #endregion
 
-                var opponentHero = db.FavouriteSuperHero.Where(hero => hero.ApiId == data.OpponentHeroId).FirstOrDefault();
-
-                //mapping
-                if (opponentHero != null)
-                {
-                    chosenOpponentHero.OpponentHeroId = data.OpponentHeroId;
-                    chosenOpponentHero.OpponentHeroName = opponentHero.Name;
-                    chosenOpponentHero.OpponentHeroRealName = opponentHero.RealName;
-                    chosenOpponentHero.OpponentHeroImgUrl = opponentHero.ImgUrl;
-                }
-
-                return Json(chosenOpponentHero, JsonRequestBehavior.AllowGet);
+                var heroId = (int)data.OpponentHeroId;
+               
+                return Json(objBs.chooseHeroBLL.MapOpponentHero(heroId), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

@@ -51,14 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseBLL.cs" />
+    <Compile Include="Mapping\OpponentHeroMapping.cs" />
+    <Compile Include="Mapping\UserHeroMapping.cs" />
+    <Compile Include="SharedBLL.cs" />
     <Compile Include="BattleLogBLL.cs" />
     <Compile Include="BusinessLogicContainer.cs" />
     <Compile Include="BattleBLL.cs" />
+    <Compile Include="ChooseHeroBLL.cs" />
     <Compile Include="DetailedHeroBLL.cs" />
     <Compile Include="ManageApi\ApiCall.cs" />
     <Compile Include="ManageApi\ApiNotFoundException.cs" />
     <Compile Include="Mapping\BattleMapping.cs" />
+    <Compile Include="Mapping\ChooseHeroMapping.cs" />
     <Compile Include="Mapping\DetailedHeroMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

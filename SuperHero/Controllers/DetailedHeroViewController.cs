@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using SuperHero.ManageApi;
 using SuperHero.Models;
-using SuperHeroBLL;
-using SuperHeroBLL.Mapping;
 using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -46,7 +43,7 @@ namespace SuperHero.Controllers
                     model.IsFavourite = true;
 
                 //mapping if we get back the hero from api
-                model = DetailedHeroMapping.Mapping(model, hero);
+                model = objBs.detailedHeroBLL.MappingFromApi(model, hero);
 
                 return View(model);
 
@@ -67,7 +64,7 @@ namespace SuperHero.Controllers
                     model.IsFavourite = true;
 
                 var heroFromDb = objBs.detailedHeroBLL.GetFavouriteHeroById(heroId);
-                model = DetailedHeroMapping.Mapping(model, heroFromDb);
+                model = objBs.detailedHeroBLL.MappingWhenApiNA(model, heroFromDb);
 
                 return View(model);
             }
@@ -118,7 +115,7 @@ namespace SuperHero.Controllers
 
                     //mapping back the model from api
                     model = new DetailedHeroViewModel();
-                    model = DetailedHeroMapping.Mapping(model, hero);
+                    model = objBs.detailedHeroBLL.MappingFromApi(model, hero);
                     model.IsFavourite = true;
 
                     return View("DetailedHero", model);
@@ -127,11 +124,11 @@ namespace SuperHero.Controllers
                 //if the hero doesn't exist in the db yet
                 //then we create a new one, add to the user
                 //and save to the db
-                var newFavouriteHero = DetailedHeroMapping.Mapping(hero);
+                var newFavouriteHero = objBs.detailedHeroBLL.MappingNewFavouriteHero(hero);
                 objBs.detailedHeroBLL.SaveHeroToDb(newFavouriteHero, userId);
 
                 //mapping back the model
-                model = DetailedHeroMapping.Mapping(model, hero);
+                model = objBs.detailedHeroBLL.MappingFromApi(model, hero);
                 model.IsFavourite = true;
 
                 return View("DetailedHero", model);
@@ -150,7 +147,7 @@ namespace SuperHero.Controllers
 
                     //mapping back the model if we can't reach the api                       
                     var model = new DetailedHeroViewModel();
-                    model = DetailedHeroMapping.Mapping(model, heroToSave);
+                    model = objBs.detailedHeroBLL.MappingWhenApiNA(model, heroToSave);
                     model.IsFavourite = true;
 
                     return View("DetailedHero", model);
@@ -190,7 +187,7 @@ namespace SuperHero.Controllers
                 var model = new DetailedHeroViewModel();
 
                 //mapping back the model from api               
-                model = DetailedHeroMapping.Mapping(model, hero);
+                model = objBs.detailedHeroBLL.MappingFromApi(model, hero);
                 model.IsFavourite = false;
 
                 return View("DetailedHero", model);
@@ -199,7 +196,7 @@ namespace SuperHero.Controllers
             {
                 var model = new DetailedHeroViewModel();
                 var heroFromDb = objBs.detailedHeroBLL.GetFavouriteHeroById(apiId);
-                model = DetailedHeroMapping.Mapping(model, heroFromDb);
+                model = objBs.detailedHeroBLL.MappingWhenApiNA(model, heroFromDb);
                 model.IsFavourite = false;
                 return View("DetailedHero", model);
             }

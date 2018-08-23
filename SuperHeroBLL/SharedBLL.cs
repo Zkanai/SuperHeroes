@@ -11,13 +11,15 @@ namespace SuperHeroBLL
     /// <summary>
     /// contains the shared business logic methods
     /// </summary>
-    public abstract class BaseBLL
+    public abstract class SharedBLL
     {
-        protected BaseDb objDb;
+        private AspNetUsersDb aspNetUsersDb;
+        private FavouriteSuperHeroDb favouriteSuperHeroDb;
 
-        public BaseBLL()
+        public SharedBLL()
         {
-            objDb = new BaseDb();
+            aspNetUsersDb = new AspNetUsersDb();
+            favouriteSuperHeroDb = new FavouriteSuperHeroDb();
         }
 
         /// <summary>
@@ -29,9 +31,9 @@ namespace SuperHeroBLL
         /// <returns></returns>
         public List<int> GetUserFavouriteHeroIdList(string userId)
         {
-            return objDb.GetUserFavouriteHeroIdList(userId);
+            return favouriteSuperHeroDb.GetUserFavouriteHeroIdList(userId);
         }
-        
+
         /// <summary>
         /// returns all favourite hero id from the
         /// db in a int list
@@ -39,7 +41,7 @@ namespace SuperHeroBLL
         /// <returns></returns>
         public List<int> GetFavouriteHeroIdList()
         {
-            return objDb.GetFavouriteHeroIdList();
+            return favouriteSuperHeroDb.GetFavouriteHeroIdList();
         }
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace SuperHeroBLL
         /// <returns></returns>
         public FavouriteSuperHero GetFavouriteHeroById(int heroId)
         {
-            return objDb.GetFavouriteHeroById(heroId);
+            return favouriteSuperHeroDb.GetFavouriteHeroById(heroId);
         }
 
         /// <summary>
@@ -62,7 +64,7 @@ namespace SuperHeroBLL
         /// <returns></returns>
         public FavouriteSuperHero GetUserFavouriteHeroById(string userId, int heroApiId)
         {
-            return objDb.GetUserFavouriteHeroById(heroApiId, userId);
+            return favouriteSuperHeroDb.GetUserFavouriteHeroById(heroApiId, userId);
         }
 
         /// <summary>
@@ -74,7 +76,7 @@ namespace SuperHeroBLL
         /// <returns></returns>
         public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, string userId)
         {
-            return objDb.GetUserFavouriteHeroById(apiId, userId);
+            return favouriteSuperHeroDb.GetUserFavouriteHeroById(apiId, userId);
         }
     }
 }

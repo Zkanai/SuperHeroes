@@ -11,7 +11,7 @@ namespace SuperHeroBLL
     /// manage the requests from
     /// battle controller, manage the battles
     /// </summary>
-    public class BattleBLL:BaseBLL
+    public class BattleBLL:SharedBLL
     {
     
         private BattleLogBLL objBs;

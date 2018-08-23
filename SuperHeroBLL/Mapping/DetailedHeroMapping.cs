@@ -13,7 +13,7 @@ namespace SuperHeroBLL.Mapping
     /// <summary>
     /// manage mapping for DetailedHeroViewModel
     /// </summary>
-   public static class DetailedHeroMapping
+   internal static class DetailedHeroMapping
     {
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace SuperHeroBLL.Mapping
         /// <param name="model"></param>
         /// <param name="hero"></param>
         /// <returns></returns>
-        public static DetailedHeroViewModel Mapping(DetailedHeroViewModel model, SuperHeroById.HeroById hero)
+        internal static DetailedHeroViewModel MappingFromApi(DetailedHeroViewModel model, SuperHeroById.HeroById hero)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace SuperHeroBLL.Mapping
         /// <param name="model"></param>
         /// <param name="hero"></param>
         /// <returns></returns>
-        public static DetailedHeroViewModel Mapping(DetailedHeroViewModel model, FavouriteSuperHero hero)
+        internal static DetailedHeroViewModel MappingWhenApiNA(DetailedHeroViewModel model, FavouriteSuperHero hero)
         {
             var infoWhenApiNA = "Temporarily Unavailable!";
 
@@ -124,7 +124,7 @@ namespace SuperHeroBLL.Mapping
         /// <param name="hero"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static FavouriteSuperHero Mapping(SuperHeroById.HeroById hero)
+        internal static FavouriteSuperHero MappingNewFavouriteHero(SuperHeroById.HeroById hero)
         {
             var newFavouriteHero = new FavouriteSuperHero();
 
