@@ -13,12 +13,11 @@ namespace SuperHeroBLL
     /// </summary>
     public abstract class SharedBLL
     {
-        private AspNetUsersDb aspNetUsersDb;
+       
         private FavouriteSuperHeroDb favouriteSuperHeroDb;
 
         public SharedBLL()
-        {
-            aspNetUsersDb = new AspNetUsersDb();
+        {           
             favouriteSuperHeroDb = new FavouriteSuperHeroDb();
         }
 

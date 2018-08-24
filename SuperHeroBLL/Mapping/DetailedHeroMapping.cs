@@ -133,12 +133,12 @@ namespace SuperHeroBLL.Mapping
             newFavouriteHero.Name = hero.Name;
             newFavouriteHero.RealName = hero.Biography.Full_Name;
             newFavouriteHero.ImgUrl = hero.Image.Url;
-            newFavouriteHero.Intelligence = ApiCall.StatStringToInt(hero.Powerstats.Intelligence);
-            newFavouriteHero.Strength = ApiCall.StatStringToInt(hero.Powerstats.Strength);
-            newFavouriteHero.Speed = ApiCall.StatStringToInt(hero.Powerstats.Speed);
-            newFavouriteHero.Durability = ApiCall.StatStringToInt(hero.Powerstats.Durability);
-            newFavouriteHero.Power = ApiCall.StatStringToInt(hero.Powerstats.Power);
-            newFavouriteHero.Combat = ApiCall.StatStringToInt(hero.Powerstats.Combat);
+            newFavouriteHero.Intelligence = MappingExtensions.StatStringToInt(hero.Powerstats.Intelligence);
+            newFavouriteHero.Strength = MappingExtensions.StatStringToInt(hero.Powerstats.Strength);
+            newFavouriteHero.Speed = MappingExtensions.StatStringToInt(hero.Powerstats.Speed);
+            newFavouriteHero.Durability = MappingExtensions.StatStringToInt(hero.Powerstats.Durability);
+            newFavouriteHero.Power = MappingExtensions.StatStringToInt(hero.Powerstats.Power);
+            newFavouriteHero.Combat = MappingExtensions.StatStringToInt(hero.Powerstats.Combat);
 
             return newFavouriteHero;
         }

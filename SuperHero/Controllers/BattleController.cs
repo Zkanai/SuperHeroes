@@ -7,7 +7,6 @@ using SuperHero.Models.JsonFromJqueryModels;
 using SuperHero.Models.ApiModels;
 using SuperHero.ManageApi;
 using Microsoft.AspNet.Identity;
-using SuperHeroBLL.Mapping;
 
 namespace SuperHero.Controllers
 {
@@ -93,9 +92,9 @@ namespace SuperHero.Controllers
                 }
 
                 //if hero don't exist in our db yet
-                //the we call the API, and get the required data
+                //then we call the API, and get the required data
                 var randomOpponentHero = await ApiCall.GetHeroById(opponentHeroApiId);
-                model.OpponentHero = BattleMapping.Mapping(randomOpponentHero);
+                model.OpponentHero = objBs.battleBLL.Mapping(randomOpponentHero);
 
                 return View("Battle", model);
             }
@@ -110,7 +109,7 @@ namespace SuperHero.Controllers
                
                 //mapping enemy hero
                 var randomOpponentHero = new SuperHeroById.HeroById();
-                model.OpponentHero = BattleMapping.MappingWhenApiNotWorking(randomOpponentHero);
+                model.OpponentHero = objBs.battleBLL.MappingWhenApiNotWorking(randomOpponentHero);
 
                 return View("Battle", model);
             }

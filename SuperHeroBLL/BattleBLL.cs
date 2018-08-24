@@ -1,4 +1,7 @@
-﻿using SuperHero.Models.JsonFromJqueryModels;
+﻿using SuperHero;
+using SuperHero.Models.ApiModels;
+using SuperHero.Models.JsonFromJqueryModels;
+using SuperHeroBLL.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,6 +88,17 @@ namespace SuperHeroBLL
             }
 
 
+        }
+
+
+        public FavouriteSuperHero Mapping(SuperHeroById.HeroById randomOpponentHero)
+        {
+            return BattleMapping.Mapping(randomOpponentHero);
+        }
+
+        public FavouriteSuperHero MappingWhenApiNotWorking(SuperHeroById.HeroById randomOpponentHero)
+        {
+            return BattleMapping.MappingWhenApiNotWorking(randomOpponentHero);
         }
 
     }

@@ -11,16 +11,16 @@ namespace SuperHeroDAL
     /// <summary>
     /// manage CRUD for BattleLog table from db
     /// </summary>
-    public class AspNetUsersDb:SharedDb
+    public class AspNetUsersDb
     {
-      
+
         /// <summary>
         /// get's back the actually logged user
         /// based on id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public new AspNetUsers GetUserById(string id)
+        public static AspNetUsers GetUserById(string id, SuperHeroDBEntities db)
         {
             var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == id).FirstOrDefault();
             return user;
@@ -28,10 +28,11 @@ namespace SuperHeroDAL
 
         public void SaveHeroToUserFavHeroList(int apiId, string userId)
         {
-            
-                var user = GetUserById(userId);
-                var heroToSave = GetFavouriteHeroById(apiId);
-                
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                var user = GetUserById(userId, db);
+                var heroToSave = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
+
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
                 {
                     user.FavouriteSuperHero.Add(heroToSave);
@@ -39,13 +40,15 @@ namespace SuperHeroDAL
                     db.SaveChanges();
                     tran.Commit();
                 }
-            
+            }
         }
 
         public void RemoveHeroFromUserFavouriteList(string userId, int heroId)
-        {            
-                var user = GetUserById(userId);
-                var userFavouriteHero = GetFavouriteHeroById(heroId);
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                var user = GetUserById(userId, db);
+                var userFavouriteHero = FavouriteSuperHeroDb.GetFavouriteHeroById(heroId, db);
 
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
                 {
@@ -53,7 +56,8 @@ namespace SuperHeroDAL
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                     tran.Commit();
-                }            
+                }
+            }
         }
     }
 }

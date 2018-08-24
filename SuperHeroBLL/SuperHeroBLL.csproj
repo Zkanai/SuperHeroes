@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\MappingExtensions.cs" />
     <Compile Include="Mapping\OpponentHeroMapping.cs" />
     <Compile Include="Mapping\UserHeroMapping.cs" />
     <Compile Include="SharedBLL.cs" />

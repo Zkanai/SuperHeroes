@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspNetUsersDb.cs" />
-    <Compile Include="SharedDb.cs" />
     <Compile Include="BattleLogDb.cs" />
     <Compile Include="FavouriteSuperHeroDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

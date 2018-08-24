@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace SuperHeroBLL.Mapping
 {
-    public static class BattleMapping
+    internal static class BattleMapping
     {
         /// <summary>
         /// help modelling the data we get from the api
         /// </summary>
         /// <param name="randomOpponentHero"></param>
         /// <returns></returns>
-        public static FavouriteSuperHero Mapping(SuperHeroById.HeroById randomOpponentHero)
+        internal static FavouriteSuperHero Mapping(SuperHeroById.HeroById randomOpponentHero)
         {
 
             var opponentHero = new FavouriteSuperHero();
@@ -27,12 +27,12 @@ namespace SuperHeroBLL.Mapping
                 opponentHero.Name = randomOpponentHero.Name;
                 opponentHero.RealName = randomOpponentHero.Biography.Full_Name;
                 opponentHero.ImgUrl = randomOpponentHero.Image.Url;
-                opponentHero.Intelligence = ApiCall.StatStringToInt(randomOpponentHero.Powerstats.Intelligence);
-                opponentHero.Strength = ApiCall.StatStringToInt(randomOpponentHero.Powerstats.Strength);
-                opponentHero.Speed = ApiCall.StatStringToInt(randomOpponentHero.Powerstats.Speed);
-                opponentHero.Durability = ApiCall.StatStringToInt(randomOpponentHero.Powerstats.Durability);
-                opponentHero.Power = ApiCall.StatStringToInt(randomOpponentHero.Powerstats.Power);
-                opponentHero.Combat = ApiCall.StatStringToInt(randomOpponentHero.Powerstats.Combat);
+                opponentHero.Intelligence = MappingExtensions.StatStringToInt(randomOpponentHero.Powerstats.Intelligence);
+                opponentHero.Strength = MappingExtensions.StatStringToInt(randomOpponentHero.Powerstats.Strength);
+                opponentHero.Speed = MappingExtensions.StatStringToInt(randomOpponentHero.Powerstats.Speed);
+                opponentHero.Durability = MappingExtensions.StatStringToInt(randomOpponentHero.Powerstats.Durability);
+                opponentHero.Power = MappingExtensions.StatStringToInt(randomOpponentHero.Powerstats.Power);
+                opponentHero.Combat = MappingExtensions.StatStringToInt(randomOpponentHero.Powerstats.Combat);
 
                 return opponentHero;
             }
@@ -51,7 +51,7 @@ namespace SuperHeroBLL.Mapping
         /// </summary>
         /// <param name="randomOpponentHero"></param>
         /// <returns></returns>
-        public static FavouriteSuperHero MappingWhenApiNotWorking(SuperHeroById.HeroById randomOpponentHero)
+        internal static FavouriteSuperHero MappingWhenApiNotWorking(SuperHeroById.HeroById randomOpponentHero)
         {
 
             var opponentHero = new FavouriteSuperHero();

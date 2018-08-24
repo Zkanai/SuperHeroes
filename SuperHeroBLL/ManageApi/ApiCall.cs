@@ -89,21 +89,6 @@ namespace SuperHero.ManageApi
             }
                                 
         }
-
-        /// <summary>
-        /// helps to convert the heroes stats, cause we get them in string from the api
-        /// </summary>
-        /// <param name="herostat"></param>
-        /// <returns></returns>
-        public static int StatStringToInt(string herostat)
-        {
-            int stat = 0;
-
-            int.TryParse(herostat, out stat);
-
-            return stat;
-        }
-
-        
+              
     }
 }

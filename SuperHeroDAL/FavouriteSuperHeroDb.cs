@@ -12,34 +12,54 @@ namespace SuperHeroDAL
     /// manage CRUD for BattleLog table from db
     /// </summary>
     /// </summary>
-    public class FavouriteSuperHeroDb:SharedDb
+    public class FavouriteSuperHeroDb
     {
 
         public FavouriteSuperHero GetUserFavouriteHeroById(int apiId, string userId)
         {
-            var user = GetUserById(userId);        
-            return user.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                var user = AspNetUsersDb.GetUserById(userId, db);
+                return user.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
+            }
         }
 
         public List<int> GetUserFavouriteHeroIdList(string userId)
         {
-            var user = GetUserById(userId);            
-            return user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                var user = AspNetUsersDb.GetUserById(userId, db);
+                return user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
+            }
         }
 
         public List<int> GetFavouriteHeroIdList()
-        {            
-            return db.FavouriteSuperHero.Select(h => h.ApiId).ToList();
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                return db.FavouriteSuperHero.Select(h => h.ApiId).ToList();
+            }
         }
 
-        public new FavouriteSuperHero GetFavouriteHeroById(int heroId)
+
+        public FavouriteSuperHero GetFavouriteHeroById(int heroId)
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                return db.FavouriteSuperHero.Where(h => h.ApiId == heroId).FirstOrDefault();
+            }
+        }
+
+        public static FavouriteSuperHero GetFavouriteHeroById(int heroId, SuperHeroDBEntities db)
         {           
-            return db.FavouriteSuperHero.Where(h => h.ApiId == heroId).FirstOrDefault(); ;
+            return db.FavouriteSuperHero.Where(h => h.ApiId == heroId).FirstOrDefault();
         }
 
         public void SaveHeroToDb(FavouriteSuperHero newFavouriteHero, string userId)
-        {          
-                var user = GetUserById(userId);
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                var user = AspNetUsersDb.GetUserById(userId, db);
 
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
                 {
@@ -47,13 +67,17 @@ namespace SuperHeroDAL
                     db.FavouriteSuperHero.Add(newFavouriteHero);
                     db.SaveChanges();
                     tran.Commit();
-                }           
+                }
+            }
         }
 
         public List<FavouriteSuperHero> GetUserFavouriteHeroList(string userId)
         {
-            var user = GetUserById(userId);
-            return user.FavouriteSuperHero.ToList();            
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                var user = AspNetUsersDb.GetUserById(userId, db);
+                return user.FavouriteSuperHero.ToList();
+            }
         }
     }
 }
