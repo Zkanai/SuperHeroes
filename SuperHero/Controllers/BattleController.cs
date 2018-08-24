@@ -12,9 +12,9 @@ namespace SuperHero.Controllers
 {
 
     [Authorize]
-    public class BattleController : BaseController  
+    public class BattleController : BaseController
     {
-              
+
         //GET: BATTLE WITH FAVOURITE
         [HttpGet]
         public ActionResult Battle(int? leftHeroApiId, int? rightHeroApiId)
@@ -32,15 +32,15 @@ namespace SuperHero.Controllers
                 var model = new BattleViewModel();
 
                 //if something went wrong
-                var userFavHeroApiIdList = objBs.battleBLL.GetUserFavouriteHeroIdList(userId);               
+                var userFavHeroApiIdList = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroIdList(userId);
                 if (!userFavHeroApiIdList.Contains(userHeroApiId) || !userFavHeroApiIdList.Contains(opponentHeroApiId))
                 {
                     return RedirectToAction("ChooseHero", "ChooseHeroView");
                 }
                 #endregion
 
-                model.UserHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, userHeroApiId);
-                model.OpponentHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, opponentHeroApiId);
+                model.UserHero = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroById(userHeroApiId, userId);
+                model.OpponentHero = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroById(opponentHeroApiId, userId);
 
                 return View(model);
             }
@@ -49,14 +49,14 @@ namespace SuperHero.Controllers
 
                 throw;
             }
-           
+
         }
 
         //GET: BATTLE WITH RANDOM OPPONENT
         [HttpGet]
         public async Task<ActionResult> BattleRandom(int? leftHeroApiId, int? rightHeroApiId)
         {
-                                     
+
             try
             {
                 #region Validation
@@ -70,22 +70,22 @@ namespace SuperHero.Controllers
                 var model = new BattleViewModel();
 
                 //if something went wrong
-                var userHeroApiIdList = objBs.battleBLL.GetUserFavouriteHeroIdList(userId);
+                var userHeroApiIdList = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroIdList(userId);
                 if (!userHeroApiIdList.Contains(userHeroApiId))
                 {
                     return RedirectToAction("ChooseHero", "ChooseHeroView");
                 }
                 #endregion
 
-                var apiIdList = objBs.battleBLL.GetFavouriteHeroIdList();
-                var userHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, userHeroApiId);
+                var apiIdList = objBs.FavouriteSuperHeroBLL.GetFavouriteHeroIdList();
+                var userHero = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroById(userHeroApiId, userId);
                 model.UserHero = userHero;
 
                 //the opponent hero is in our db, so don't need to call the API
                 //just get the hero from the db
                 if (apiIdList.Contains(opponentHeroApiId))
                 {
-                    var opponentHero = objBs.battleBLL.GetFavouriteHeroById(opponentHeroApiId);
+                    var opponentHero = objBs.FavouriteSuperHeroBLL.GetFavouriteHeroById(opponentHeroApiId);
                     model.OpponentHero = opponentHero;
 
                     return View("Battle", model);
@@ -104,9 +104,9 @@ namespace SuperHero.Controllers
                 var userId = User.Identity.GetUserId();
                 var userHeroApiId = (int)leftHeroApiId;
                 var model = new BattleViewModel();
-                var userHero = objBs.battleBLL.GetUserFavouriteHeroById(userId, userHeroApiId);
+                var userHero = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroById(userHeroApiId, userId);
                 model.UserHero = userHero;
-               
+
                 //mapping enemy hero
                 var randomOpponentHero = new SuperHeroById.HeroById();
                 model.OpponentHero = objBs.battleBLL.MappingWhenApiNotWorking(randomOpponentHero);
@@ -136,7 +136,7 @@ namespace SuperHero.Controllers
 
                 throw;
             }
-           
+
         }
 
 

@@ -14,7 +14,7 @@ namespace SuperHeroBLL
     /// <summary>
     /// manage the requests from DetailedHeroViewController
     /// </summary>
-    public class DetailedHeroBLL:SharedBLL
+    public class DetailedHeroBLL
     {
         private AspNetUsersDb aspNetUsersDb;
         private FavouriteSuperHeroDb favouriteSuperHeroDb;

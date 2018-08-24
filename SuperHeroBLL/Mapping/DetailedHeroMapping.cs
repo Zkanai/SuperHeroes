@@ -13,7 +13,7 @@ namespace SuperHeroBLL.Mapping
     /// <summary>
     /// manage mapping for DetailedHeroViewModel
     /// </summary>
-   internal static class DetailedHeroMapping
+   internal abstract class DetailedHeroMapping
     {
 
         /// <summary>

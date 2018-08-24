@@ -8,16 +8,13 @@ using System.Threading.Tasks;
 
 namespace SuperHeroBLL
 {
-    /// <summary>
-    /// contains the shared business logic methods
-    /// </summary>
-    public abstract class SharedBLL
+    public class FavouriteSuperHeroBLL
     {
-       
+
         private FavouriteSuperHeroDb favouriteSuperHeroDb;
 
-        public SharedBLL()
-        {           
+        public FavouriteSuperHeroBLL()
+        {
             favouriteSuperHeroDb = new FavouriteSuperHeroDb();
         }
 
@@ -34,16 +31,6 @@ namespace SuperHeroBLL
         }
 
         /// <summary>
-        /// returns all favourite hero id from the
-        /// db in a int list
-        /// </summary>
-        /// <returns></returns>
-        public List<int> GetFavouriteHeroIdList()
-        {
-            return favouriteSuperHeroDb.GetFavouriteHeroIdList();
-        }
-
-        /// <summary>
         /// get's back a favourite hero
         /// based on the hero id
         /// </summary>
@@ -55,15 +42,23 @@ namespace SuperHeroBLL
         }
 
         /// <summary>
-        /// get's back the given user's favourite superhero based
-        /// on its id
+        /// returns all favourite hero id from the
+        /// db in a int list
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetFavouriteHeroIdList()
+        {
+            return favouriteSuperHeroDb.GetFavouriteHeroIdList();
+        }
+
+        /// <summary>
+        /// return a user's favourite superheroes in a list
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="userHeroApiId"></param>
         /// <returns></returns>
-        public FavouriteSuperHero GetUserFavouriteHeroById(string userId, int heroApiId)
+        public List<FavouriteSuperHero> GetUserFavouriteSuperHeroList(string userId)
         {
-            return favouriteSuperHeroDb.GetUserFavouriteHeroById(heroApiId, userId);
+            return favouriteSuperHeroDb.GetUserFavouriteHeroList(userId);
         }
 
         /// <summary>
@@ -77,5 +72,6 @@ namespace SuperHeroBLL
         {
             return favouriteSuperHeroDb.GetUserFavouriteHeroById(apiId, userId);
         }
+     
     }
 }

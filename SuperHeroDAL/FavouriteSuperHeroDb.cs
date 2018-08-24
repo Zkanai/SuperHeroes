@@ -19,7 +19,7 @@ namespace SuperHeroDAL
         {
             using (SuperHeroDBEntities db = new SuperHeroDBEntities())
             {
-                var user = AspNetUsersDb.GetUserById(userId, db);
+                var user = AspNetUsersDb.GetUserIncludeFavouriteHeroesByIdAndDb(userId, db);
                 return user.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
             }
         }
@@ -28,7 +28,7 @@ namespace SuperHeroDAL
         {
             using (SuperHeroDBEntities db = new SuperHeroDBEntities())
             {
-                var user = AspNetUsersDb.GetUserById(userId, db);
+                var user = AspNetUsersDb.GetUserIncludeFavouriteHeroesByIdAndDb(userId,db);
                 return user.FavouriteSuperHero.Select(h => h.ApiId).ToList();
             }
         }
@@ -59,7 +59,7 @@ namespace SuperHeroDAL
         {
             using (SuperHeroDBEntities db = new SuperHeroDBEntities())
             {
-                var user = AspNetUsersDb.GetUserById(userId, db);
+                var user = AspNetUsersDb.GetUserIncludeFavouriteHeroesByIdAndDb(userId, db);
 
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
                 {
@@ -75,9 +75,11 @@ namespace SuperHeroDAL
         {
             using (SuperHeroDBEntities db = new SuperHeroDBEntities())
             {
-                var user = AspNetUsersDb.GetUserById(userId, db);
+                var user = AspNetUsersDb.GetUserIncludeFavouriteHeroesByIdAndDb(userId, db);
                 return user.FavouriteSuperHero.ToList();
             }
         }
+
+        
     }
 }

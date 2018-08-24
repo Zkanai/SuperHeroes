@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SuperHeroBLL.Mapping
 {
-    internal class OpponentHeroMapping
+    internal abstract class OpponentHeroMapping
     {
         internal static OpponentHeroData MapOpponentHero(int heroId, FavouriteSuperHero opponentHero)
         {

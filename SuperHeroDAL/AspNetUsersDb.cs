@@ -15,12 +15,27 @@ namespace SuperHeroDAL
     {
 
         /// <summary>
-        /// get's back the actually logged user
-        /// based on id
+        /// get's back the actually logged user 
+        /// based on id include the user favourite heroes
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static AspNetUsers GetUserById(string id, SuperHeroDBEntities db)
+        public AspNetUsers GetUserIncludeFavouriteHeroesById(string id)
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == id).FirstOrDefault();
+                return user;
+            }        
+        }
+
+       /// <summary>
+       /// get a user from the db based on id and db context
+       /// </summary>
+       /// <param name="id"></param>
+       /// <param name="db"></param>
+       /// <returns></returns>
+        public static AspNetUsers GetUserIncludeFavouriteHeroesByIdAndDb(string id, SuperHeroDBEntities db)
         {
             var user = db.AspNetUsers.Include(u => u.FavouriteSuperHero).Where(u => u.Id == id).FirstOrDefault();
             return user;
@@ -30,7 +45,7 @@ namespace SuperHeroDAL
         {
             using (SuperHeroDBEntities db = new SuperHeroDBEntities())
             {
-                var user = GetUserById(userId, db);
+                var user = GetUserIncludeFavouriteHeroesByIdAndDb(userId, db);
                 var heroToSave = db.FavouriteSuperHero.Where(h => h.ApiId == apiId).FirstOrDefault();
 
                 using (DbContextTransaction tran = db.Database.BeginTransaction())
@@ -47,7 +62,7 @@ namespace SuperHeroDAL
         {
             using (SuperHeroDBEntities db = new SuperHeroDBEntities())
             {
-                var user = GetUserById(userId, db);
+                var user = GetUserIncludeFavouriteHeroesByIdAndDb(userId, db);
                 var userFavouriteHero = FavouriteSuperHeroDb.GetFavouriteHeroById(heroId, db);
 
                 using (DbContextTransaction tran = db.Database.BeginTransaction())

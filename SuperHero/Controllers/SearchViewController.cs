@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using SuperHero.ManageApi;
 using SuperHero.Models;
-using SuperHero.Models.ApiModels;
 using System;
 using SuperHero.Models.JsonFromJqueryModels;
 

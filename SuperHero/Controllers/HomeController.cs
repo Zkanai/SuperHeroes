@@ -8,9 +8,9 @@ using Microsoft.AspNet.Identity;
 
 namespace SuperHero.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        SuperHeroDBEntities db = new SuperHeroDBEntities();
+        //SuperHeroDBEntities db = new SuperHeroDBEntities();
 
         //Get
         [HttpGet]
@@ -20,38 +20,18 @@ namespace SuperHero.Controllers
 
             try
             {
-                
-                    var userId = User.Identity.GetUserId();
-                    var user = db.AspNetUsers.Include(u=>u.FavouriteSuperHero).Where(u => u.Id == userId).FirstOrDefault();
 
-                    if (user==null)
-                    {
-                        return View(model);
-                    }
+                var userId = User.Identity.GetUserId();
+                var user = objBs.AspNetUserBLL.GetUserIncludeFavouriteHeroesById(userId);
 
-                    var favSuperHero = user.FavouriteSuperHero.ToList();
-                    
-                    //mapping
-                    model = favSuperHero.Select(hero => new FavouriteSuperHeroViewModel()
-                    {
-                        Id = hero.Id,
-                        ApiId=hero.ApiId.ToString(),
-                        Name = hero.Name,
-                        RealName = hero.RealName,
-                        ImgUrl = hero.ImgUrl,
-                        Intelligence = hero.Intelligence,
-                        Strength = hero.Strength,
-                        Speed = hero.Speed,
-                        Durability = hero.Durability,
-                        Power = hero.Power,
-                        Combat = hero.Combat,
-                        Win = db.BattleLog.Where(log => log.UserHeroId == hero.ApiId && log.WinnerHeroId == hero.ApiId && log.UserId == userId).ToList().Count,
-                        Loose = db.BattleLog.Where(log => log.UserHeroId == hero.ApiId && log.WinnerHeroId != hero.ApiId && log.WinnerHeroId != null && log.UserId == userId).ToList().Count,
-                        Draw = db.BattleLog.Where(log => log.UserHeroId == hero.ApiId && log.WinnerHeroId == null && log.UserId == userId).ToList().Count
+                if (user == null)
+                {
+                    return View(model);
+                }
 
-                    }).ToList();
-                
-                return View(model);
+                var userFavSuperHeroList = user.FavouriteSuperHero.ToList();
+                            
+                return View(objBs.HomeBLL.MappingFavouriteSuperHeroes(userId, userFavSuperHeroList));
             }
             catch (Exception)
             {

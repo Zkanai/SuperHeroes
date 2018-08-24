@@ -20,9 +20,9 @@ namespace SuperHero.Controllers
 
             try
             {
-                
-                model = objBs.chooseHeroBLL.Mapping(userId);
-                ViewBag.HeroList = objBs.chooseHeroBLL.GetUserFavouriteSuperHeroList(userId);
+                var userFavSuperHeroesList= objBs.FavouriteSuperHeroBLL.GetUserFavouriteSuperHeroList(userId);
+                model = objBs.chooseHeroBLL.Mapping(userFavSuperHeroesList);
+                ViewBag.HeroList = userFavSuperHeroesList;
               
                 return View();
             }
@@ -49,8 +49,9 @@ namespace SuperHero.Controllers
                 if (data.UserHeroId == null || data.UserHeroId <= 0)
                 {
                     //mapping the model back and return the view
-                    ViewBag.HeroList = objBs.chooseHeroBLL.GetUserFavouriteSuperHeroList(userId);
-                    return View(nameof(ChooseHero), objBs.chooseHeroBLL.Mapping(userId));
+                    var userFavSuperHeroesList = objBs.FavouriteSuperHeroBLL.GetUserFavouriteSuperHeroList(userId);
+                    ViewBag.HeroList = userFavSuperHeroesList;
+                    return View(nameof(ChooseHero), objBs.chooseHeroBLL.Mapping(userFavSuperHeroesList));
                 }
                 #endregion
 
@@ -78,8 +79,9 @@ namespace SuperHero.Controllers
                 if (data.OpponentHeroId == null || data.OpponentHeroId <= 0)
                 {
                     //mapping the model back and return the view  
-                    ViewBag.HeroList = objBs.chooseHeroBLL.GetUserFavouriteSuperHeroList(userId);
-                    return View(nameof(ChooseHero), objBs.chooseHeroBLL.Mapping(userId));
+                    var userFavSuperHeroesList = objBs.FavouriteSuperHeroBLL.GetUserFavouriteSuperHeroList(userId);
+                    ViewBag.HeroList = userFavSuperHeroesList;
+                    return View(nameof(ChooseHero), objBs.chooseHeroBLL.Mapping(userFavSuperHeroesList));
                 }
                 #endregion
 

@@ -34,7 +34,7 @@ namespace SuperHero.Controllers
                 var hero = await ApiCall.GetHeroById(heroId);
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
-                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetUserFavouriteHeroIdList(userId);
+                var userFavSuperHeroesIdList = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroIdList(userId);
                 
 
                 //to help check if the hero is already a favourite one
@@ -56,14 +56,15 @@ namespace SuperHero.Controllers
 
                 var model = new DetailedHeroViewModel();
                 model.IsFavourite = false;
-                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetUserFavouriteHeroIdList(userId);
+                var userFavSuperHeroesIdList = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroIdList(userId);
 
                 //to help check if the hero is already a favourite one
                 //that the user actually viewing                          
                 if (userFavSuperHeroesIdList.Contains(heroId))
                     model.IsFavourite = true;
 
-                var heroFromDb = objBs.detailedHeroBLL.GetFavouriteHeroById(heroId);
+                var heroFromDb = objBs.FavouriteSuperHeroBLL
+                    .GetFavouriteHeroById(heroId);
                 model = objBs.detailedHeroBLL.MappingWhenApiNA(model, heroFromDb);
 
                 return View(model);
@@ -93,7 +94,7 @@ namespace SuperHero.Controllers
                 if (!int.TryParse(id, out apiId))
                     return RedirectToAction("Index", "Home");
               
-                var userFavSuperHeroesIdList = objBs.detailedHeroBLL.GetUserFavouriteHeroIdList(userId);
+                var userFavSuperHeroesIdList = objBs.FavouriteSuperHeroBLL.GetUserFavouriteHeroIdList(userId);
 
                 //if this hero already in the user favourites
                 if (userFavSuperHeroesIdList.Contains(apiId))
@@ -107,7 +108,7 @@ namespace SuperHero.Controllers
                 //if the hero is already in database
                 //the program just add the hero to the user fav list
                 //but won't save in the favouritehero table
-                var favHeroIdList = objBs.detailedHeroBLL.GetFavouriteHeroIdList();
+                var favHeroIdList = objBs.FavouriteSuperHeroBLL.GetFavouriteHeroIdList();
                 if (favHeroIdList.Contains(apiId))
                 {
                    
@@ -138,11 +139,11 @@ namespace SuperHero.Controllers
                 //if the hero is already in database
                 //the program just add the hero to the user fav list
                 //but won't save in the favouritehero table            
-                var favHeroIdList = objBs.detailedHeroBLL.GetFavouriteHeroIdList();
+                var favHeroIdList = objBs.FavouriteSuperHeroBLL.GetFavouriteHeroIdList();
                 if (favHeroIdList.Contains(apiId))
                 {
 
-                    var heroToSave = objBs.detailedHeroBLL.GetFavouriteHeroById(apiId);
+                    var heroToSave = objBs.FavouriteSuperHeroBLL.GetFavouriteHeroById(apiId);
                     objBs.detailedHeroBLL.SaveHeroToUserFavHeroList(apiId, userId);
 
                     //mapping back the model if we can't reach the api                       
@@ -195,7 +196,7 @@ namespace SuperHero.Controllers
             catch (ApiNotFoundException)
             {
                 var model = new DetailedHeroViewModel();
-                var heroFromDb = objBs.detailedHeroBLL.GetFavouriteHeroById(apiId);
+                var heroFromDb = objBs.FavouriteSuperHeroBLL.GetFavouriteHeroById(apiId);
                 model = objBs.detailedHeroBLL.MappingWhenApiNA(model, heroFromDb);
                 model.IsFavourite = false;
                 return View("DetailedHero", model);

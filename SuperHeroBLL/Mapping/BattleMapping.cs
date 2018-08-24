@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SuperHeroBLL.Mapping
 {
-    internal static class BattleMapping
+    internal abstract class BattleMapping
     {
         /// <summary>
         /// help modelling the data we get from the api

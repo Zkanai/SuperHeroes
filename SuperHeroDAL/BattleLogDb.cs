@@ -49,5 +49,28 @@ namespace SuperHeroDAL
             }
         }
 
+        public int GetWinCount(FavouriteSuperHero hero, string userId)
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                return db.BattleLog.Where(log => log.UserHeroId == hero.ApiId && log.WinnerHeroId == hero.ApiId && log.UserId == userId).ToList().Count;
+            }
+        }
+
+        public int GetLooseCount(FavouriteSuperHero hero, string userId)
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                return db.BattleLog.Where(log => log.UserHeroId == hero.ApiId && log.WinnerHeroId != hero.ApiId && log.WinnerHeroId != null && log.UserId == userId).ToList().Count;
+            }
+        }
+
+        public int GetDrawCount(FavouriteSuperHero hero, string userId)
+        {
+            using (SuperHeroDBEntities db = new SuperHeroDBEntities())
+            {
+                return db.BattleLog.Where(log => log.UserHeroId == hero.ApiId && log.WinnerHeroId == null && log.UserId == userId).ToList().Count;
+            }
+        }
     }
 }

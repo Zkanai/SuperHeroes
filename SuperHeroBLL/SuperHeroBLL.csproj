@@ -51,10 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetUserBLL.cs" />
+    <Compile Include="FavouriteSuperHeroBLL.cs" />
+    <Compile Include="HomeBLL.cs" />
+    <Compile Include="Mapping\FavouriteSuperHeroMapping.cs" />
     <Compile Include="Mapping\MappingExtensions.cs" />
     <Compile Include="Mapping\OpponentHeroMapping.cs" />
     <Compile Include="Mapping\UserHeroMapping.cs" />
-    <Compile Include="SharedBLL.cs" />
     <Compile Include="BattleLogBLL.cs" />
     <Compile Include="BusinessLogicContainer.cs" />
     <Compile Include="BattleBLL.cs" />

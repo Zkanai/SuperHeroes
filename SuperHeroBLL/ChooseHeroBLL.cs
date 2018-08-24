@@ -19,16 +19,10 @@ namespace SuperHeroBLL
         {
             favHeroObjDb = new FavouriteSuperHeroDb();           
         }
-
-        public List<FavouriteSuperHero> GetUserFavouriteSuperHeroList(string userId)
+         
+        public ChooseHeroesViewModel Mapping(List<FavouriteSuperHero> favSuperHeroList)
         {
-            return favHeroObjDb.GetUserFavouriteHeroList(userId);
-        }
-
-        
-        public ChooseHeroesViewModel Mapping(string userId)
-        {
-            return ChooseHeroMapping.Mapping(GetUserFavouriteSuperHeroList(userId));
+            return ChooseHeroMapping.Mapping(favSuperHeroList);
         }
 
         public UserHeroData MapUserHero(int heroId)
