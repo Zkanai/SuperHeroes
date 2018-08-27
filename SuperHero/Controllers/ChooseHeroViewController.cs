@@ -14,7 +14,7 @@ namespace SuperHero.Controllers
         // GET: ChooseHeroView
         public ActionResult ChooseHero()
         {
-
+            
             var model = new ChooseHeroesViewModel();
             var userId = User.Identity.GetUserId();
 

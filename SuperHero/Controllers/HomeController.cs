@@ -10,8 +10,7 @@ namespace SuperHero.Controllers
 {
     public class HomeController : BaseController
     {
-        //SuperHeroDBEntities db = new SuperHeroDBEntities();
-
+        
         //Get
         [HttpGet]
         public ActionResult Index()

@@ -9,8 +9,7 @@ namespace SuperHero.Controllers
 {
     public class SearchViewController : Controller
     {
-        SuperHeroDBEntities db = new SuperHeroDBEntities();
-
+       
         // GET: SearchView
         [HttpGet]
         public ActionResult Index()
