@@ -16,8 +16,12 @@ namespace SuperHero.Models.JsonFromJqueryModels
         public string OpponentHeroName { get; set; }
         public int UserHeroSkill { get; set; }
         public int UserHeroStat { get; set; }
+        public int UserHeroHp { get; set; }
+        public int UserHeroDmg { get; set; }
         public int OpponentHeroSkill { get; set; }
         public int OpponentHeroStat { get; set; }
+        public int OpponentHeroHp { get; set; }
+        public int OpponentHeroDmg { get; set; }
 
     }
 }

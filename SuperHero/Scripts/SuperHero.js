@@ -75,7 +75,11 @@ function BattleView() {
         let userHeroSkillName = $("input[name = battle]:checked").parent().children(".userHeroSkill").text();
         let userHeroId = $("#UserHero_ApiId").val();
         let opponentHeroId = $("#OpponentHero_ApiId").val();
+        let userHeroHp = +$("#dur").val();
+        let userHeroDmg = +$("#pow").val();
         let userHeroSumStat = +$("#int").val() + +$("#str").val() + +$("#spd").val() + +$("#dur").val() + +$("#pow").val() + +$("#com").val();
+        let opponentHeroHp = +$("#Durability").text();
+        let opponentHeroDmg = +$("#Power").text();
         let opponentHeroSumStat = +$("#Intelligence").text() + +$("#Strength").text() + +$("#Speed").text() + +$("#Durability").text() + +$("#Power").text() + +$("#Combat").text();
         let opponentHeroSkillValue = 0;
         opponentHeroSkillValue = $("[id = '" + userHeroSkillName + "']").text();
@@ -98,13 +102,15 @@ function BattleView() {
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
                     leftHeroId: userHeroId, rightHeroId: opponentHeroId,
-                    UserHeroName: userHeroName, UserHeroSkill: userHeroSkillValue, UserHeroStat: userHeroSumStat,
-                    OpponentHeroName: opponentHeroName, OpponentHeroSkill: opponentHeroSkillValue, OpponentHeroStat: opponentHeroSumStat
+                    UserHeroName:userHeroName, UserHeroSkill:userHeroSkillValue, UserHeroHp:userHeroHp, UserHeroDmg:userHeroDmg, UserHeroStat:userHeroSumStat,
+                    OpponentHeroName:opponentHeroName, OpponentHeroSkill:opponentHeroSkillValue, OpponentHeroHp:opponentHeroHp, OpponentHeroDmg:opponentHeroDmg, OpponentHeroStat:opponentHeroSumStat
                 }),
                 async: true,
                 processData: false,
                 cache: false,
                 success: function (data) {
+                    //itt kell majd az a logika hogy ha még van a hp-ja a hősőknek, akkor újra lehessen skillt választani,
+                    //és menjen még egy kört a csata
                     $("#result").text(data);
                     $("#resultModal").modal("show");
 
